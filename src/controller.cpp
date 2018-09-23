@@ -14,13 +14,11 @@ bool Controller::GetForegroundStatus()
 {
 	return bActive;
 }
-void Controller::Draw(SDL_Renderer* p_renderer)							//virtual
+void Controller::Draw(SDL_Renderer* p_renderer)		//virtual
 {
 }
-void Controller::Update(double dt)				//virtual
+void Controller::Update(double dt)					//virtual
 {
-	//Nothing here yet so let's drop out of the menu and have the game controller take over
-	bActive = false;
 }
 void Controller::LoadScene(std::string strFileName)	//virtual
 {
