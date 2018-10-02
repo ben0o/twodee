@@ -48,4 +48,6 @@ g++ ./src/*.cpp -o ./bin/twodee -lSDL2
 ```
 
 ### Compile (Windows)
+```
 g++ ./src/*.cpp -o ./bin/twodee -lmingw32 -lSDL2main -lSDL2
+```
