@@ -14,17 +14,17 @@ sudo apt-get install libsdl2-dev
 sudo pacman -S sdl2
 ```
 
-## Mac OS
-### Install Brew
+### Mac OS
+#### Install Brew
 ```
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 ```
 
-### Install SDL2
+#### Install SDL2
 ```
 brew install sdl2
 ```
-### Copy SDL2 include folder to project directory
+#### Copy SDL2 include folder to project directory
 /usr/local/Cellar/sdl2/2.0.5/include/ -> twodee/include/
 ### Copy SDL library folder to project directory
 /usr/local/Cellar/sdl2/2.0.5/lib/ -> twodee/lib/
