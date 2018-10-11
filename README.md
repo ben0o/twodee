@@ -13,6 +13,22 @@ sudo apt-get install libsdl2-dev
 ```
 sudo pacman -S sdl2
 ```
+
+## Mac OS
+### Install Brew
+```
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+```
+
+### Install SDL2
+```
+brew install sdl2
+```
+### Copy SDL2 include folder to project directory
+/usr/local/Cellar/sdl2/2.0.5/include/ -> twodee/include/
+### Copy SDL library folder to project directory
+/usr/local/Cellar/sdl2/2.0.5/lib/ -> twodee/lib/
+
 ### Windows
 #### Install Mingw 
 http://mingw.org/
@@ -46,6 +62,15 @@ Use the make file located in the project directory
 ```
 g++ ./src/*.cpp -o ./bin/twodee -lSDL2
 ```
+
+### Compile (Mac OS)
+Use the Makefile file in the project directory
+```
+make game
+```
+-or-
+```
+g++ src/*.cpp -o bin/twodee -I include -L lib -l SDL2-2.0.0
 
 ### Compile (Windows)
 ```
