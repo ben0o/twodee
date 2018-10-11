@@ -71,6 +71,7 @@ make game
 -or-
 ```
 g++ src/*.cpp -o bin/twodee -I include -L lib -l SDL2-2.0.0
+```
 
 ### Compile (Windows)
 ```
