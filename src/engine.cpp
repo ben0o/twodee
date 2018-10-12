@@ -1,8 +1,16 @@
 #include "engine.hpp"
 
+Engine::Engine()
+{
+    // Default Constructor
+    bRunning = true;
+}
+Engine::~Engine()
+{
+    // Destructor
+}
 void Engine::Run()
 {
-	bool bRunning = true;
 	p_cntrMenu = new ControllerMenu();
 	p_cntrGame = new ControllerGame();
 	
@@ -27,14 +35,8 @@ void Engine::Run()
 		timeStart = SDL_GetTicks();
 		timeSimulatedThisIteration = 0;
 		
-    	while( SDL_PollEvent( &event ) )
-		{
-        	switch( event.type )
-			{
-				case SDL_QUIT:
-					bRunning = false;
-			}
-		}
+        // Input() function processes keyboard input.
+        Input(event);
 		
 		while ( timeAccumulator >= timeDelta )
 		{
@@ -51,6 +53,28 @@ void Engine::Run()
 	SDL_DestroyWindow( p_window );
 	SDL_Quit();
 	
+}
+void Engine::Input(SDL_Event &event)
+{
+    while( SDL_PollEvent( &event ) )
+    {
+        switch( event.type )
+        {
+            case SDL_QUIT:
+                bRunning = false;
+                break;
+            case SDL_KEYDOWN:
+                std::cout << "Keyboard Input Detected!" << std::endl;
+                if (event.key.keysym.sym == SDLK_ESCAPE)
+                {
+                    std::cout << "Escape key has been pressed!" << std::endl;
+                    bRunning = false;
+                }
+                break;
+            default:
+                break;
+        }
+    }
 }
 void Engine::Update(double dt)
 {
