@@ -17,12 +17,19 @@ bool Controller::GetForegroundStatus()
 void Controller::Draw(SDL_Renderer* p_renderer)		//virtual
 {
 }
+void Controller::SetInput(SDL_Event &event)			//virtual
+{
+
+}
 void Controller::Update(double dt)					//virtual
 {
 }
 void Controller::LoadScene(std::string strFileName)	//virtual
 {
 }
-void Controller::LoadAssets()
+void Controller::LoadAssets()						//virtual
+{
+}
+void Controller::DeleteAssets()						//virtual
 {
 }

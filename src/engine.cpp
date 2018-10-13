@@ -10,21 +10,24 @@ Engine::~Engine()
     // Destructor
 }
 void Engine::Run()
-{
+{	
+	SDL_Init( SDL_INIT_EVERYTHING );
+
+	p_window = SDL_CreateWindow( "TwoDee", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1024, 768, SDL_WINDOW_SHOWN );
+	p_renderer = SDL_CreateRenderer( p_window, -1, SDL_RENDERER_ACCELERATED );
+	SDL_Event event;
+
 	p_cntrMenu = new ControllerMenu();
-	p_cntrGame = new ControllerGame();
-	
+	p_cntrGame = new ControllerGame(p_renderer);
+
 	//Set the menu as the current controller object
 	p_cntrCurrent = p_cntrMenu;
 	p_cntrCurrent->SetForegroundStatus();
 	bShowMenu = true;
 	std::cout << "Assign Menu to Controller Pointer" << std::endl;
 	
-	SDL_Init( SDL_INIT_EVERYTHING );
-
-	p_window = SDL_CreateWindow( "TwoDee", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1024, 768, SDL_WINDOW_SHOWN );
-	p_renderer = SDL_CreateRenderer( p_window, -1, SDL_RENDERER_ACCELERATED );
-	SDL_Event event;
+	// Initialise image loading.
+	IMG_Init(IMG_INIT_PNG);
 
 	double timeDelta = 1.0/30.0;
 	double timeAccumulator = 0;
@@ -51,6 +54,7 @@ void Engine::Run()
 	}
 	SDL_DestroyRenderer( p_renderer );
 	SDL_DestroyWindow( p_window );
+	p_cntrGame->DeleteAssets();
 	SDL_Quit();
 	
 }
@@ -63,17 +67,15 @@ void Engine::Input(SDL_Event &event)
             case SDL_QUIT:
                 bRunning = false;
                 break;
-            case SDL_KEYDOWN:
-                std::cout << "Keyboard Input Detected!" << std::endl;
-                if (event.key.keysym.sym == SDLK_ESCAPE)
-                {
-                    std::cout << "Escape key has been pressed!" << std::endl;
-                    bRunning = false;
-                }
-                break;
             default:
                 break;
         }
+		if (event.key.keysym.sym == SDLK_ESCAPE)
+		{
+			std::cout << "Escape key has been pressed!" << std::endl;
+			bRunning = false;
+		}
+		p_cntrCurrent->SetInput(event);
     }
 }
 void Engine::Update(double dt)

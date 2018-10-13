@@ -2,17 +2,31 @@
 #define CONTROLLERGAME_H
 
 #include "controller.hpp"
+#include "scene.hpp"
+#include "player.hpp"
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include <string>
+#include <iostream>
  
 class ControllerGame : public Controller
 {
 public:
 	ControllerGame();
 	~ControllerGame();
+	ControllerGame(SDL_Renderer* p_renderer);
 
-	virtual void Update(double);
+	virtual void SetInput(SDL_Event &event);
+	virtual void Update(double dt);
 	virtual void Draw(SDL_Renderer*);
-	virtual void LoadScene(std::string);	
+
+	virtual void DeleteAssets();
+private:
+	// Pointer to Renderer passed in from engine
+	SDL_Renderer* renderer;
+
+	Scene *currScene;
+	Player newPlayer;
+	SDL_Texture* newTexture;
 };
 #endif

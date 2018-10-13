@@ -10,8 +10,10 @@ public:
 	ControllerMenu();
 	~ControllerMenu();
 
-	virtual void Update(double);
+	virtual void SetInput(SDL_Event &event);
+	virtual void Update(double dt);
 	virtual void Draw(SDL_Renderer*);
-	virtual void LoadScene(std::string);	
+	virtual void LoadScene(std::string);
+	virtual void DeleteAssets();
 };
 #endif
