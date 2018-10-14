@@ -14,45 +14,30 @@ ControllerGame::ControllerGame(SDL_Renderer* p_renderer)
 
 	newPlayer.LoadPlayerSprite(renderer, "../images/playerSprites.png");
 }
-void ControllerGame::SetInput(SDL_Event &event)
+void ControllerGame::SetInput(double dt)
 {
-	if (event.type == SDL_KEYDOWN)
-	{
-		switch (event.key.keysym.sym)
-		{
-		case SDLK_a:
-			newPlayer.UpdateDir(Player::LEFT, true); break;
-		case SDLK_s:
-			newPlayer.UpdateDir(Player::BACKWARD, true); break;
-		case SDLK_d:
-			newPlayer.UpdateDir(Player::RIGHT, true); break;
-		case SDLK_w:
-			newPlayer.UpdateDir(Player::FORWARD, true); break;
-		default:
-			break;
-		}
-	}
-	if (event.type == SDL_KEYUP)
-	{
-		switch (event.key.keysym.sym)
-		{
-		case SDLK_a:
-			newPlayer.UpdateDir(Player::LEFT, false); break;
-			std::cout << "A key released!" << std::endl; break;
-		case SDLK_s:
-			newPlayer.UpdateDir(Player::BACKWARD, false); break;
-		case SDLK_d:
-			newPlayer.UpdateDir(Player::RIGHT, false); break;
-		case SDLK_w:
-			newPlayer.UpdateDir(Player::FORWARD, false); break;
-		default:
-			break;
-		}
-	}
+	const Uint8 *keyStates = SDL_GetKeyboardState(NULL);
+	SDL_PumpEvents();
+	if (keyStates[SDL_SCANCODE_W])
+		newPlayer.Step(Player::FORWARD, true, dt);
+	else
+		newPlayer.Step(Player::FORWARD, false, dt);
+	if (keyStates[SDL_SCANCODE_A])
+		newPlayer.Step(Player::LEFT, true, dt);
+	else
+		newPlayer.Step(Player::LEFT, false, dt);
+	if (keyStates[SDL_SCANCODE_S])
+		newPlayer.Step(Player::BACKWARD, true, dt);
+	else
+		newPlayer.Step(Player::BACKWARD, false, dt);
+	if (keyStates[SDL_SCANCODE_D])
+		newPlayer.Step(Player::RIGHT, true, dt);
+	else
+		newPlayer.Step(Player::RIGHT, false, dt);
 }
 void ControllerGame::Update(double dt)
 {
-	newPlayer.Step(dt);
+	
 }
 void ControllerGame::Draw(SDL_Renderer* p_renderer)
 {

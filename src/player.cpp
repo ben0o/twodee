@@ -1,6 +1,6 @@
 #include "player.hpp"
 
-static const int WALKING_SPEED = 0.01;
+static const int WALKING_SPEED = 1;
 
 Player::Player()
 {
@@ -17,6 +17,9 @@ Player::Player()
 	currentPos.y = 768 / 2;
 	currentPos.w = spriteImgCoords.w;
 	currentPos.h = spriteImgCoords.h;
+
+	yPos = currentPos.y;
+	std::cout << "Y: " << yPos << std::endl;
 }
 Player::~Player()
 {
@@ -39,7 +42,7 @@ void Player::LoadPlayerSprite(SDL_Renderer* p_renderer, std::string imagePath)
 	}
 }
 
-void Player::UpdateDir(Direction dir, bool enabled)
+void Player::Step(Direction dir, bool enabled, double dt)
 {
 	switch (dir)
 	{
@@ -54,24 +57,32 @@ void Player::UpdateDir(Direction dir, bool enabled)
 	default:
 			break;
 	};
-}
 
-void Player::Step(double dt)
-{
 	if ((moveDir[FORWARD] && moveDir[BACKWARD]) || (moveDir[LEFT] && moveDir[RIGHT]))
 		return;
 	if (moveDir[FORWARD])
-	{
-		currentPos.y = currentPos.y + (dt * WALKING_SPEED);
-		//std::cout << "Y: " << currentPos.y << std::endl;
-	}
+		currentPos.y -= 1;
 	if (moveDir[BACKWARD])
-		currentPos.y = currentPos.y - (dt * WALKING_SPEED);
+		currentPos.y += 1;
 	if (moveDir[LEFT])
-		currentPos.x = currentPos.x - (dt * WALKING_SPEED);
+		currentPos.x -= 1;
 	if (moveDir[RIGHT])
-		currentPos.x = currentPos.x + (dt * WALKING_SPEED);
+		currentPos.x += 1;
 }
+
+//void Player::Step(double dt)
+//{
+//	//if ((moveDir[FORWARD] && moveDir[BACKWARD]) || (moveDir[LEFT] && moveDir[RIGHT]))
+//		//return;
+//	if (moveDir[FORWARD] == true)
+//		currentPos.y++;//= currentPos.y + (dt * WALKING_SPEED);
+//	if (moveDir[BACKWARD] == true)
+//		currentPos.y = currentPos.y - (dt * WALKING_SPEED);
+//	if (moveDir[LEFT] == true)
+//		currentPos.x = currentPos.x - (dt * WALKING_SPEED);
+//	if (moveDir[RIGHT] == true)
+//		currentPos.x = currentPos.x + (dt * WALKING_SPEED);
+//}
 
 void Player::Draw(SDL_Renderer* p_renderer)
 {

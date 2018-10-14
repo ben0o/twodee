@@ -13,7 +13,7 @@ public:
 	void SetForegroundStatus();					//used to switch between controllers
 	bool GetForegroundStatus();
 	
-	virtual void SetInput(SDL_Event &event);
+	virtual void SetInput(double dt);
     virtual void Update(double dt);
     virtual void Draw(SDL_Renderer*);
     

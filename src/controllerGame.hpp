@@ -16,7 +16,7 @@ public:
 	~ControllerGame();
 	ControllerGame(SDL_Renderer* p_renderer);
 
-	virtual void SetInput(SDL_Event &event);
+	virtual void SetInput(double dt);
 	virtual void Update(double dt);
 	virtual void Draw(SDL_Renderer*);
 

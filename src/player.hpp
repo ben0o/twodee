@@ -15,13 +15,14 @@ public:
 	~Player();
 
 	void LoadPlayerSprite(SDL_Renderer* p_renderer, std::string imagePath);
-	void UpdateDir(Direction dir, bool enabled);
-	void Step(double dt);
+	void Step(Direction dir, bool enabled, double dt);
 	void Draw(SDL_Renderer* p_renderer);
 
 private:
 	SDL_Texture* playerSprite;
 	SDL_Rect spriteImgCoords, currentPos;
+
+	int yPos;
 
 	bool moveDir[4];
 

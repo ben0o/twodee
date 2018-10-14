@@ -16,7 +16,7 @@ public:
     ~Engine();
     
 	void Run();
-    void Input(SDL_Event &event);
+    void Input(SDL_Event &event, double dt);
 	void Update(double);
 	void Draw();
 	

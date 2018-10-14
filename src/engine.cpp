@@ -39,7 +39,7 @@ void Engine::Run()
 		timeSimulatedThisIteration = 0;
 		
         // Input() function processes keyboard input.
-        Input(event);
+        Input(event, timeDelta);
 		
 		while ( timeAccumulator >= timeDelta )
 		{
@@ -58,7 +58,7 @@ void Engine::Run()
 	SDL_Quit();
 	
 }
-void Engine::Input(SDL_Event &event)
+void Engine::Input(SDL_Event &event, double dt)
 {
     while( SDL_PollEvent( &event ) )
     {
@@ -66,16 +66,19 @@ void Engine::Input(SDL_Event &event)
         {
             case SDL_QUIT:
                 bRunning = false;
-                break;
+				break;
+			case SDL_KEYDOWN:
+			case SDL_KEYUP:
+				p_cntrCurrent->SetInput(dt);
             default:
                 break;
         }
-		if (event.key.keysym.sym == SDLK_ESCAPE)
+		if (event.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
 		{
 			std::cout << "Escape key has been pressed!" << std::endl;
 			bRunning = false;
 		}
-		p_cntrCurrent->SetInput(event);
+		//p_cntrCurrent->SetInput(event);
     }
 }
 void Engine::Update(double dt)

@@ -7,7 +7,7 @@ ControllerMenu::ControllerMenu()
 ControllerMenu::~ControllerMenu()
 {
 }
-void ControllerMenu::SetInput(SDL_Event &event)
+void ControllerMenu::SetInput(double dt)
 {
 }
 void ControllerMenu::Update(double dt)
