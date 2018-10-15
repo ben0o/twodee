@@ -17,7 +17,11 @@ void Engine::Run()
 	p_renderer = SDL_CreateRenderer( p_window, -1, SDL_RENDERER_ACCELERATED );
 	SDL_Event event;
 
-	p_cntrMenu = new ControllerMenu();
+	p_settings = new Settings();
+	
+	//Load settings from file here
+	
+	p_cntrMenu = new ControllerMenu(p_settings);
 	p_cntrGame = new ControllerGame(p_renderer);
 
 	//Set the menu as the current controller object
@@ -110,6 +114,7 @@ void Engine::ToggleMenu()
 		std::cout << "Assign Game to Controller Pointer" << std::endl;
 		p_cntrCurrent = p_cntrGame;
 		p_cntrCurrent->SetForegroundStatus();
+		p_cntrCurrent->CompareSettings(p_settings);
 		bShowMenu = false;
 	}
 }

@@ -75,3 +75,30 @@ void ControllerGame::DeleteAssets()
 	// Delete textures
 	SDL_DestroyTexture(newTexture);
 }
+void ControllerGame::CompareSettings(Settings* _settings)
+{
+	//Compare local copy of settings to remote to see if anything has changed
+	//
+	
+	bool bChangeLevel = false;
+	if (_settings->level != settings.level)
+		bChangeLevel = true;
+	
+	//Copy engine settings to local settings
+	settings = *_settings;
+	
+	
+	if (bChangeLevel)
+		LoadLevel();
+	
+}
+void ControllerGame::LoadLevel()
+{
+	std::cout << "Loading Level " << settings.level << std::endl;
+	
+	//
+	
+	//
+	
+	std::cout << "Load Complete" << std::endl;
+}

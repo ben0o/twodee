@@ -27,9 +27,3 @@ void Controller::Update(double dt)					//virtual
 void Controller::LoadScene(std::string strFileName)	//virtual
 {
 }
-void Controller::LoadAssets()						//virtual
-{
-}
-void Controller::DeleteAssets()						//virtual
-{
-}

@@ -21,12 +21,16 @@ public:
 	virtual void Draw(SDL_Renderer*);
 
 	virtual void DeleteAssets();
+	virtual void CompareSettings(Settings*);
 private:
+	void LoadLevel();
+
 	// Pointer to Renderer passed in from engine
 	SDL_Renderer* renderer;
 
 	Scene *currScene;
 	Player newPlayer;
 	SDL_Texture* newTexture;
+	Settings settings;
 };
 #endif
