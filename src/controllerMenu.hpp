@@ -11,7 +11,7 @@ public:
 	~ControllerMenu();
 
 	virtual void SetInput(double dt);
-	virtual void Update(double dt);
+	virtual void Update(float timeStep);
 	virtual void Draw(SDL_Renderer*);
 	virtual void LoadScene(std::string);
 	virtual void DeleteAssets();

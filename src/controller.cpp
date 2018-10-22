@@ -21,7 +21,7 @@ void Controller::SetInput(double dt)			//virtual
 {
 
 }
-void Controller::Update(double dt)					//virtual
+void Controller::Update(float timeStep)					//virtual
 {
 }
 void Controller::LoadScene(std::string strFileName)	//virtual

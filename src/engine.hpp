@@ -17,7 +17,7 @@ public:
     
 	void Run();
     void Input(SDL_Event &event, double dt);
-	void Update(double);
+	void Update(float timeStep);
 	void Draw();
 	
 	void ToggleMenu();
@@ -34,6 +34,7 @@ private:
     
     bool bShowMenu;
     bool bRunning;
+
 };
 
 #endif

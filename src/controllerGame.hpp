@@ -17,7 +17,7 @@ public:
 	ControllerGame(SDL_Renderer* p_renderer);
 
 	virtual void SetInput(double dt);
-	virtual void Update(double dt);
+	virtual void Update(float timeStep);
 	virtual void Draw(SDL_Renderer*);
 
 	virtual void DeleteAssets();

@@ -10,7 +10,7 @@ ControllerMenu::~ControllerMenu()
 void ControllerMenu::SetInput(double dt)
 {
 }
-void ControllerMenu::Update(double dt)
+void ControllerMenu::Update(float timeStep)
 {
 	//Nothing here yet so let's drop out of the menu and have the game controller take over
 	bActive = false;

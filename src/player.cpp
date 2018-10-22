@@ -18,8 +18,12 @@ Player::Player()
 	currentPos.w = spriteImgCoords.w;
 	currentPos.h = spriteImgCoords.h;
 
-	yPos = currentPos.y;
-	std::cout << "Y: " << yPos << std::endl;
+	xPosOffset = 0;
+	yPosOffset = 0;
+	xPosVel = 0;
+	yPosVel = 0;
+
+	counter = 0;
 }
 Player::~Player()
 {
@@ -42,47 +46,65 @@ void Player::LoadPlayerSprite(SDL_Renderer* p_renderer, std::string imagePath)
 	}
 }
 
-void Player::Step(Direction dir, bool enabled, double dt)
+void Player::SetDirection(Direction dir, bool enabled)
 {
 	switch (dir)
 	{
-	case FORWARD:
-		moveDir[FORWARD] = enabled; break;
-	case BACKWARD:
-		moveDir[BACKWARD] = enabled; break;
-	case LEFT:
-		moveDir[LEFT] = enabled; break;
-	case RIGHT:
-		moveDir[RIGHT] = enabled; break;
-	default:
+		case FORWARD:
+		{
+			moveDir[FORWARD] = enabled; 
+			if (enabled)
+				yPosVel += PLAYER_VEL;
+			else
+				yPosVel -= PLAYER_VEL;
+				//yPosVel = 0;
 			break;
+		}
+		case BACKWARD:
+		{
+			moveDir[BACKWARD] = enabled;
+			if (enabled)
+				yPosVel -= PLAYER_VEL;
+			else
+				yPosVel += PLAYER_VEL;
+				//yPosVel = 0;
+			break;
+		}
+		case LEFT:
+		{
+			moveDir[LEFT] = enabled;
+			if (enabled)
+				xPosVel -= PLAYER_VEL;
+			else
+				//xPosVel += PLAYER_VEL;
+				xPosVel = 0;
+			break;
+		}
+		case RIGHT:
+		{
+			moveDir[RIGHT] = enabled;
+			if (enabled)
+				xPosVel += PLAYER_VEL;
+			else
+				//xPosVel -= PLAYER_VEL;
+				xPosVel = 0;
+			break;
+		}
 	};
-
-	if ((moveDir[FORWARD] && moveDir[BACKWARD]) || (moveDir[LEFT] && moveDir[RIGHT]))
-		return;
-	if (moveDir[FORWARD])
-		currentPos.y -= 1;
-	if (moveDir[BACKWARD])
-		currentPos.y += 1;
-	if (moveDir[LEFT])
-		currentPos.x -= 1;
-	if (moveDir[RIGHT])
-		currentPos.x += 1;
 }
 
-//void Player::Step(double dt)
-//{
-//	//if ((moveDir[FORWARD] && moveDir[BACKWARD]) || (moveDir[LEFT] && moveDir[RIGHT]))
-//		//return;
-//	if (moveDir[FORWARD] == true)
-//		currentPos.y++;//= currentPos.y + (dt * WALKING_SPEED);
-//	if (moveDir[BACKWARD] == true)
-//		currentPos.y = currentPos.y - (dt * WALKING_SPEED);
-//	if (moveDir[LEFT] == true)
-//		currentPos.x = currentPos.x - (dt * WALKING_SPEED);
-//	if (moveDir[RIGHT] == true)
-//		currentPos.x = currentPos.x + (dt * WALKING_SPEED);
-//}
+
+void Player::Update(float timeStep)
+{
+	// Move the player left or right.
+	xPosOffset += xPosVel * timeStep;
+
+	// Move the player forward or backward.
+	yPosOffset += yPosVel * timeStep;
+
+	currentPos.x += xPosOffset;
+	currentPos.y += yPosOffset;
+}
 
 void Player::Draw(SDL_Renderer* p_renderer)
 {

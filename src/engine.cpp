@@ -1,5 +1,8 @@
 #include "engine.hpp"
 
+const int SCREEN_WIDTH = 1024;
+const int SCREEN_HEIGHT = 768;
+
 Engine::Engine()
 {
     // Default Constructor
@@ -13,7 +16,7 @@ void Engine::Run()
 {	
 	SDL_Init( SDL_INIT_EVERYTHING );
 
-	p_window = SDL_CreateWindow( "TwoDee", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1024, 768, SDL_WINDOW_SHOWN );
+	p_window = SDL_CreateWindow( "TwoDee", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
 	p_renderer = SDL_CreateRenderer( p_window, -1, SDL_RENDERER_ACCELERATED );
 	SDL_Event event;
 
@@ -29,28 +32,19 @@ void Engine::Run()
 	// Initialise image loading.
 	IMG_Init(IMG_INIT_PNG);
 
-	double timeDelta = 1.0/30.0;
-	double timeAccumulator = 0;
-	double timeStart = SDL_GetTicks();
-	double timeSimulatedThisIteration;
-	while(bRunning)
+	// Set current clock time
+	float startTime = SDL_GetTicks();
+
+	while (bRunning)
 	{
-		timeStart = SDL_GetTicks();
-		timeSimulatedThisIteration = 0;
-		
-        // Input() function processes keyboard input.
-        Input(event, timeDelta);
-		
-		while ( timeAccumulator >= timeDelta )
-		{
-			Update(timeDelta);
-			timeAccumulator -= timeDelta;
-			timeSimulatedThisIteration += timeDelta;
-		}
-		
+		Input(event, 0); // Process input events
+
+		float timeStep = (SDL_GetTicks() - startTime) / 1000.f; // Calculate next step time
+		Update(timeStep);
+		startTime = SDL_GetTicks(); // Reset time
+
 		Draw();
-		SDL_RenderPresent( p_renderer ); 
-		timeAccumulator += SDL_GetTicks(); - timeStart;
+		SDL_RenderPresent(p_renderer);
 	}
 	SDL_DestroyRenderer( p_renderer );
 	SDL_DestroyWindow( p_window );
@@ -62,17 +56,12 @@ void Engine::Input(SDL_Event &event, double dt)
 {
     while( SDL_PollEvent( &event ) )
     {
-        switch( event.type )
-        {
-            case SDL_QUIT:
-                bRunning = false;
-				break;
-			case SDL_KEYDOWN:
-			case SDL_KEYUP:
-				p_cntrCurrent->SetInput(dt);
-            default:
-                break;
-        }
+		if ((event.type == SDL_KEYDOWN || event.type == SDL_KEYUP) && event.key.repeat == 0)
+		{
+			//std::cout << "SetInput() function called." << std::endl;
+			p_cntrCurrent->SetInput(dt);
+		}
+
 		if (event.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
 		{
 			std::cout << "Escape key has been pressed!" << std::endl;
@@ -81,9 +70,9 @@ void Engine::Input(SDL_Event &event, double dt)
 		//p_cntrCurrent->SetInput(event);
     }
 }
-void Engine::Update(double dt)
+void Engine::Update(float timeStep)
 {
-	p_cntrCurrent->Update(dt);
+	p_cntrCurrent->Update(timeStep);
 	
 	if (!p_cntrCurrent->GetForegroundStatus())
 	{
