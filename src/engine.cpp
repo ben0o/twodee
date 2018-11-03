@@ -59,7 +59,7 @@ void Engine::Input(SDL_Event &event, double dt)
 		if ((event.type == SDL_KEYDOWN || event.type == SDL_KEYUP) && event.key.repeat == 0)
 		{
 			//std::cout << "SetInput() function called." << std::endl;
-			p_cntrCurrent->SetInput(dt);
+			p_cntrCurrent->SetInput(event);
 		}
 
 		if (event.key.keysym.scancode == SDL_SCANCODE_ESCAPE)

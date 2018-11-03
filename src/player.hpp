@@ -28,8 +28,6 @@ public:
 	void Update(float timeStep);
 	void Draw(SDL_Renderer* p_renderer);
 
-
-
 private:
 	SDL_Texture* playerSprite;
 	SDL_Rect spriteImgCoords, currentPos;

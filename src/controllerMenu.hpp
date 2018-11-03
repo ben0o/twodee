@@ -10,7 +10,7 @@ public:
 	ControllerMenu();
 	~ControllerMenu();
 
-	virtual void SetInput(double dt);
+	virtual void SetInput(SDL_Event &events);
 	virtual void Update(float timeStep);
 	virtual void Draw(SDL_Renderer*);
 	virtual void LoadScene(std::string);

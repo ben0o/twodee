@@ -52,58 +52,68 @@ void Player::SetDirection(Direction dir, bool enabled)
 	{
 		case FORWARD:
 		{
-			moveDir[FORWARD] = enabled; 
-			if (enabled)
-				yPosVel += PLAYER_VEL;
-			else
+			moveDir[FORWARD] = enabled;
+			if (moveDir[FORWARD])
 				yPosVel -= PLAYER_VEL;
-				//yPosVel = 0;
+			else
+				yPosVel = 0;
+			std::cout << "yPosVel: " << yPosVel << std::endl;
 			break;
 		}
+
 		case BACKWARD:
 		{
 			moveDir[BACKWARD] = enabled;
-			if (enabled)
-				yPosVel -= PLAYER_VEL;
-			else
+			if (moveDir[BACKWARD])
 				yPosVel += PLAYER_VEL;
-				//yPosVel = 0;
+			else
+				yPosVel = 0;
+			std::cout << "yPosVel: " << yPosVel << std::endl;
 			break;
 		}
+
 		case LEFT:
 		{
 			moveDir[LEFT] = enabled;
-			if (enabled)
+			if (moveDir[LEFT])
 				xPosVel -= PLAYER_VEL;
 			else
-				//xPosVel += PLAYER_VEL;
 				xPosVel = 0;
+			std::cout << "xPosVel: " << xPosVel << std::endl;
 			break;
 		}
+
 		case RIGHT:
 		{
 			moveDir[RIGHT] = enabled;
-			if (enabled)
+			if (moveDir[RIGHT])
 				xPosVel += PLAYER_VEL;
 			else
-				//xPosVel -= PLAYER_VEL;
 				xPosVel = 0;
+			std::cout << "xPosVel: " << xPosVel << std::endl;
 			break;
 		}
 	};
-}
 
+}
 
 void Player::Update(float timeStep)
 {
 	// Move the player left or right.
-	xPosOffset += xPosVel * timeStep;
+	xPosOffset = xPosVel;// * timeStep;
 
 	// Move the player forward or backward.
-	yPosOffset += yPosVel * timeStep;
+	yPosOffset = yPosVel;// *timeStep;
 
-	currentPos.x += xPosOffset;
-	currentPos.y += yPosOffset;
+	if ((currentPos.x += xPosOffset) >= 0) // If the X position is equal to or larger than 0 (doesn't go off the left side of the screen)..
+		currentPos.x += xPosOffset;
+	else
+		currentPos.x = 0;
+
+	if ((currentPos.y += yPosOffset) >= 0) // If the Y position is equal to or larger than 0 (doesn't go off the right side of the screen)..
+		currentPos.y += yPosOffset;
+	else
+		currentPos.y = 0;
 }
 
 void Player::Draw(SDL_Renderer* p_renderer)

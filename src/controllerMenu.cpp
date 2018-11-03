@@ -7,7 +7,7 @@ ControllerMenu::ControllerMenu()
 ControllerMenu::~ControllerMenu()
 {
 }
-void ControllerMenu::SetInput(double dt)
+void ControllerMenu::SetInput(SDL_Event &events)
 {
 }
 void ControllerMenu::Update(float timeStep)

@@ -14,26 +14,52 @@ ControllerGame::ControllerGame(SDL_Renderer* p_renderer)
 
 	newPlayer.LoadPlayerSprite(renderer, "../images/playerSprites.png");
 }
-void ControllerGame::SetInput(double dt)
+void ControllerGame::SetInput(SDL_Event &event)
 {
-	SDL_PumpEvents();
-	const Uint8 *keyStates = SDL_GetKeyboardState(NULL);
-	if (keyStates[SDL_SCANCODE_W])
-		newPlayer.SetDirection(Player::FORWARD, true);
-	else
-		newPlayer.SetDirection(Player::FORWARD, false);
-	if (keyStates[SDL_SCANCODE_A])
-		newPlayer.SetDirection(Player::LEFT, true);
-	else
-		newPlayer.SetDirection(Player::LEFT, false);
-	if (keyStates[SDL_SCANCODE_S])
-		newPlayer.SetDirection(Player::BACKWARD, true);
-	else
-		newPlayer.SetDirection(Player::BACKWARD, false);
-	if (keyStates[SDL_SCANCODE_D])
-		newPlayer.SetDirection(Player::RIGHT, true);
-	else
-		newPlayer.SetDirection(Player::RIGHT, false);
+	if (event.type == SDL_KEYDOWN)
+	{
+		switch (event.key.keysym.sym)
+		{
+			case SDLK_w:
+			{
+				newPlayer.SetDirection(Player::FORWARD, true); break;
+			}
+			case SDLK_s:
+			{
+				newPlayer.SetDirection(Player::BACKWARD, true); break;
+			}
+			case SDLK_a:
+			{
+				newPlayer.SetDirection(Player::LEFT, true); break;
+			}
+			case SDLK_d:
+			{
+				newPlayer.SetDirection(Player::RIGHT, true); break;
+			}
+		};
+	}
+	if (event.type == SDL_KEYUP)
+	{
+		switch (event.key.keysym.sym)
+		{
+			case SDLK_w: 
+			{
+				newPlayer.SetDirection(Player::FORWARD, false); break;
+			}
+			case SDLK_s:
+			{
+				newPlayer.SetDirection(Player::BACKWARD, false); break;
+			}
+			case SDLK_a:
+			{
+				newPlayer.SetDirection(Player::LEFT, false); break;
+			}
+			case SDLK_d:
+			{
+				newPlayer.SetDirection(Player::RIGHT, false); break;
+			}
+		};
+	}
 }
 void ControllerGame::Update(float timeStep)
 {

@@ -17,7 +17,7 @@ bool Controller::GetForegroundStatus()
 void Controller::Draw(SDL_Renderer* p_renderer)		//virtual
 {
 }
-void Controller::SetInput(double dt)			//virtual
+void Controller::SetInput(SDL_Event &events)			//virtual
 {
 
 }
