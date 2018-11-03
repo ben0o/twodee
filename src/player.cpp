@@ -100,7 +100,11 @@ void Player::SetDirection(Direction dir, bool enabled)
 void Player::Update(float timeStep)
 {
 	// Move the player left or right.
-	xPosOffset = xPosVel;// * timeStep;
+	// *****************
+	// The timeStep variable is commented out for now, as the character can't be moved right or down.
+	// I suspect the resulting x/yPosOffset value is between 0.0 and -0.5, and as SDL rounds to whole numbers, it's being rounded down to 0.
+	// *****************
+	xPosOffset = xPosVel;// * timeStep; 
 
 	// Move the player forward or backward.
 	yPosOffset = yPosVel;// *timeStep;
