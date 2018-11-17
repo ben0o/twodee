@@ -20,44 +20,20 @@ void ControllerGame::SetInput(SDL_Event &event)
 	{
 		switch (event.key.keysym.sym)
 		{
-			case SDLK_w:
-			{
-				newPlayer.SetDirection(Player::FORWARD, true); break;
-			}
-			case SDLK_s:
-			{
-				newPlayer.SetDirection(Player::BACKWARD, true); break;
-			}
-			case SDLK_a:
-			{
-				newPlayer.SetDirection(Player::LEFT, true); break;
-			}
-			case SDLK_d:
-			{
-				newPlayer.SetDirection(Player::RIGHT, true); break;
-			}
+			case SDLK_w: newPlayer.SetDirection(Player::FORWARD, true); break;
+			case SDLK_s: newPlayer.SetDirection(Player::BACKWARD, true); break;
+			case SDLK_a: newPlayer.SetDirection(Player::LEFT, true); break;
+			case SDLK_d: newPlayer.SetDirection(Player::RIGHT, true); break;
 		};
 	}
 	if (event.type == SDL_KEYUP)
 	{
 		switch (event.key.keysym.sym)
 		{
-			case SDLK_w: 
-			{
-				newPlayer.SetDirection(Player::FORWARD, false); break;
-			}
-			case SDLK_s:
-			{
-				newPlayer.SetDirection(Player::BACKWARD, false); break;
-			}
-			case SDLK_a:
-			{
-				newPlayer.SetDirection(Player::LEFT, false); break;
-			}
-			case SDLK_d:
-			{
-				newPlayer.SetDirection(Player::RIGHT, false); break;
-			}
+			case SDLK_w: newPlayer.SetDirection(Player::FORWARD, false); break;
+			case SDLK_s: newPlayer.SetDirection(Player::BACKWARD, false); break;
+			case SDLK_a: newPlayer.SetDirection(Player::LEFT, false); break;
+			case SDLK_d: newPlayer.SetDirection(Player::RIGHT, false); break;
 		};
 	}
 }
@@ -67,6 +43,7 @@ void ControllerGame::Update(float timeStep)
 }
 void ControllerGame::Draw(SDL_Renderer* p_renderer)
 {
+	currScene->Draw(p_renderer);
 	newPlayer.Draw(renderer);
 }
 void ControllerGame::DeleteAssets()

@@ -20,6 +20,7 @@ Player::Player()
 
 	xPosOffset = 0;
 	yPosOffset = 0;
+
 	xPosVel = 0;
 	yPosVel = 0;
 
@@ -48,52 +49,26 @@ void Player::LoadPlayerSprite(SDL_Renderer* p_renderer, std::string imagePath)
 
 void Player::SetDirection(Direction dir, bool enabled)
 {
-	switch (dir)
+	if (enabled)
 	{
-		case FORWARD:
+		switch (dir)
 		{
-			moveDir[FORWARD] = enabled;
-			if (moveDir[FORWARD])
-				yPosVel -= PLAYER_VEL;
-			else
-				yPosVel = 0;
-			std::cout << "yPosVel: " << yPosVel << std::endl;
-			break;
-		}
-
-		case BACKWARD:
+			case FORWARD:	yPosVel -= PLAYER_VEL; break;
+			case BACKWARD:	yPosVel += PLAYER_VEL; break;
+			case LEFT:		xPosVel -= PLAYER_VEL; break;
+			case RIGHT:		xPosVel += PLAYER_VEL; break;
+		};
+	}
+	else
+	{
+		switch (dir)
 		{
-			moveDir[BACKWARD] = enabled;
-			if (moveDir[BACKWARD])
-				yPosVel += PLAYER_VEL;
-			else
-				yPosVel = 0;
-			std::cout << "yPosVel: " << yPosVel << std::endl;
-			break;
-		}
-
-		case LEFT:
-		{
-			moveDir[LEFT] = enabled;
-			if (moveDir[LEFT])
-				xPosVel -= PLAYER_VEL;
-			else
-				xPosVel = 0;
-			std::cout << "xPosVel: " << xPosVel << std::endl;
-			break;
-		}
-
-		case RIGHT:
-		{
-			moveDir[RIGHT] = enabled;
-			if (moveDir[RIGHT])
-				xPosVel += PLAYER_VEL;
-			else
-				xPosVel = 0;
-			std::cout << "xPosVel: " << xPosVel << std::endl;
-			break;
-		}
-	};
+			case FORWARD:	yPosVel += PLAYER_VEL; break;
+			case BACKWARD:	yPosVel -= PLAYER_VEL; break;
+			case LEFT:		xPosVel += PLAYER_VEL; break;
+			case RIGHT:		xPosVel -= PLAYER_VEL; break;
+		};
+	}
 
 }
 
@@ -104,20 +79,15 @@ void Player::Update(float timeStep)
 	// The timeStep variable is commented out for now, as the character can't be moved right or down.
 	// I suspect the resulting x/yPosOffset value is between 0.0 and -0.5, and as SDL rounds to whole numbers, it's being rounded down to 0.
 	// *****************
-	xPosOffset = xPosVel;// * timeStep; 
 
-	// Move the player forward or backward.
-	yPosOffset = yPosVel;// *timeStep;
+	currentPos.x += xPosVel;
+	currentPos.y += yPosVel;
 
-	if ((currentPos.x += xPosOffset) >= 0) // If the X position is equal to or larger than 0 (doesn't go off the left side of the screen)..
-		currentPos.x += xPosOffset;
-	else
-		currentPos.x = 0;
+	if ((currentPos.x < 0) || (currentPos.x + currentPos.w > SCREEN_WIDTH))
+		currentPos.x -= xPosVel;
 
-	if ((currentPos.y += yPosOffset) >= 0) // If the Y position is equal to or larger than 0 (doesn't go off the right side of the screen)..
-		currentPos.y += yPosOffset;
-	else
-		currentPos.y = 0;
+	if ((currentPos.y < 0) || (currentPos.y + currentPos.h > SCREEN_HEIGHT))
+		currentPos.y -= yPosVel;
 }
 
 void Player::Draw(SDL_Renderer* p_renderer)

@@ -4,6 +4,7 @@
 #include "controller.hpp"
 #include "controllerMenu.hpp"
 #include "controllerGame.hpp"
+#include "structs.hpp"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <iostream>

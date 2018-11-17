@@ -1,8 +1,5 @@
 #include "engine.hpp"
 
-const int SCREEN_WIDTH = 1024;
-const int SCREEN_HEIGHT = 768;
-
 Engine::Engine()
 {
     // Default Constructor
@@ -18,6 +15,7 @@ void Engine::Run()
 
 	p_window = SDL_CreateWindow( "TwoDee", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
 	p_renderer = SDL_CreateRenderer( p_window, -1, SDL_RENDERER_ACCELERATED );
+
 	SDL_Event event;
 
 	p_cntrMenu = new ControllerMenu();
@@ -45,6 +43,7 @@ void Engine::Run()
 
 		Draw();
 		SDL_RenderPresent(p_renderer);
+
 	}
 	SDL_DestroyRenderer( p_renderer );
 	SDL_DestroyWindow( p_window );
