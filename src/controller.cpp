@@ -21,7 +21,7 @@ void Controller::SetInput(SDL_Event &events)			//virtual
 {
 
 }
-void Controller::Update(float timeStep)					//virtual
+void Controller::Update(double deltaTime)					//virtual
 {
 }
 void Controller::LoadScene(std::string strFileName)	//virtual

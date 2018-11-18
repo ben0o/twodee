@@ -16,7 +16,7 @@ public:
 	static const int PLAYER_HEIGHT = 48;
 
 	// Maximum player velocity (walking speed)
-	static const int PLAYER_VEL = 1;
+	const float PLAYER_VEL = 10;
 
 	// Player direction flags
 	enum Direction { FORWARD, BACKWARD, LEFT, RIGHT };
@@ -26,7 +26,7 @@ public:
 
 	void LoadPlayerSprite(SDL_Renderer* p_renderer, std::string imagePath);
 	void SetDirection(Direction dir, bool enabled);
-	void Update(float timeStep);
+	void Update(double deltaTime);
 	void Draw(SDL_Renderer* p_renderer);
 
 private:
@@ -37,11 +37,11 @@ private:
 
 	bool moveDir[4];
 
-	// Position offsets
-	float xPosOffset, yPosOffset;
-
 	// Player velocity
 	float xPosVel, yPosVel;
+
+	// Player position
+	float xPlayerPos, yPlayerPos;
 
 	int counter;
 };

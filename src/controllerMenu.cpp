@@ -10,7 +10,7 @@ ControllerMenu::~ControllerMenu()
 void ControllerMenu::SetInput(SDL_Event &events)
 {
 }
-void ControllerMenu::Update(float timeStep)
+void ControllerMenu::Update(double deltaTime)
 {
 	//Nothing here yet so let's drop out of the menu and have the game controller take over
 	bActive = false;

@@ -17,7 +17,7 @@ public:
 	ControllerGame(SDL_Renderer* p_renderer);
 
 	virtual void SetInput(SDL_Event &events);
-	virtual void Update(float timeStep);
+	virtual void Update(double timeStep);
 	virtual void Draw(SDL_Renderer*);
 
 	virtual void DeleteAssets();
@@ -28,5 +28,7 @@ private:
 	Scene *currScene;
 	Player newPlayer;
 	SDL_Texture* newTexture;
+
+	SDL_Rect wall;
 };
 #endif

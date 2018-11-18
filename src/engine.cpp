@@ -32,18 +32,26 @@ void Engine::Run()
 
 	// Set current clock time
 	float startTime = SDL_GetTicks();
+	float currentTime = 0;
+
+	double deltaTime = 0;
 
 	while (bRunning)
 	{
+		currentTime = startTime;
+		startTime = SDL_GetTicks();
+
+		deltaTime = ((startTime - currentTime) * 1000 / (double)SDL_GetTicks());
 		Input(event, 0); // Process input events
-
-		float timeStep = (SDL_GetTicks() - startTime) / 1000.f; // Calculate next step time
-		Update(timeStep);
-		startTime = SDL_GetTicks(); // Reset time
-
+		Update(deltaTime);
 		Draw();
-		SDL_RenderPresent(p_renderer);
 
+		//float timeStep = (SDL_GetTicks() - startTime) / 1000.f; // Calculate next step time
+		//Update(deltaTime);
+		//startTime = SDL_GetTicks(); // Reset time
+
+		//Draw();
+		//SDL_RenderPresent(p_renderer);
 	}
 	SDL_DestroyRenderer( p_renderer );
 	SDL_DestroyWindow( p_window );
@@ -66,12 +74,11 @@ void Engine::Input(SDL_Event &event, double dt)
 			std::cout << "Escape key has been pressed!" << std::endl;
 			bRunning = false;
 		}
-		//p_cntrCurrent->SetInput(event);
     }
 }
-void Engine::Update(float timeStep)
+void Engine::Update(double deltaTime)
 {
-	p_cntrCurrent->Update(timeStep);
+	p_cntrCurrent->Update(deltaTime);
 	
 	if (!p_cntrCurrent->GetForegroundStatus())
 	{

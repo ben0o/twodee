@@ -14,7 +14,7 @@ public:
 	bool GetForegroundStatus();
 	
 	virtual void SetInput(SDL_Event &events);
-    virtual void Update(float timeStep);
+    virtual void Update(double deltaTime);
     virtual void Draw(SDL_Renderer*);
     
     virtual void LoadScene(std::string);

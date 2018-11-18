@@ -18,11 +18,11 @@ Player::Player()
 	currentPos.w = spriteImgCoords.w;
 	currentPos.h = spriteImgCoords.h;
 
-	xPosOffset = 0;
-	yPosOffset = 0;
-
 	xPosVel = 0;
 	yPosVel = 0;
+
+	xPlayerPos = currentPos.x;
+	yPlayerPos = currentPos.y;
 
 	counter = 0;
 }
@@ -72,27 +72,37 @@ void Player::SetDirection(Direction dir, bool enabled)
 
 }
 
-void Player::Update(float timeStep)
+void Player::Update(double deltaTime)
 {
-	// Move the player left or right.
-	// *****************
-	// The timeStep variable is commented out for now, as the character can't be moved right or down.
-	// I suspect the resulting x/yPosOffset value is between 0.0 and -0.5, and as SDL rounds to whole numbers, it's being rounded down to 0.
-	// *****************
+	//float newPosX, newPosY;
+	//float xPosOffset, yPosOffset;
 
-	currentPos.x += xPosVel;
-	currentPos.y += yPosVel;
+	//newPosX = currentPos.x;
+	//newPosY = currentPos.y;
 
-	if ((currentPos.x < 0) || (currentPos.x + currentPos.w > SCREEN_WIDTH))
-		currentPos.x -= xPosVel;
+	//xPosOffset = newPosX + (xPosVel * (deltaTime / 1000));
+	//yPosOffset = newPosY + (yPosVel * (deltaTime / 1000));
 
-	if ((currentPos.y < 0) || (currentPos.y + currentPos.h > SCREEN_HEIGHT))
-		currentPos.y -= yPosVel;
+	float xPosOffset = xPosVel * deltaTime / 1000;
+	float yPosOffset = yPosVel * deltaTime / 1000;
+
+	xPlayerPos += xPosOffset;
+	yPlayerPos += yPosOffset;
+
+	//currentPos.x += xPosVel;
+	//currentPos.y += yPosVel;
+	//
+	//if ((currentPos.x < 0) || (currentPos.x + currentPos.w > SCREEN_WIDTH))
+	//	currentPos.x -= xPosVel;
+	//
+	//if ((currentPos.y < 0) || (currentPos.y + currentPos.h > SCREEN_HEIGHT))
+	//	currentPos.y -= yPosVel;
+	//
+	std::cout << "deltaTime: " << deltaTime << std::endl;
+	//std::cout << "xPos: " << xPlayerPos << std::endl;
 }
 
 void Player::Draw(SDL_Renderer* p_renderer)
 {
-	SDL_RenderClear(p_renderer);
 	SDL_RenderCopy(p_renderer, playerSprite, &spriteImgCoords, &currentPos);
-	SDL_RenderPresent(p_renderer);
 }

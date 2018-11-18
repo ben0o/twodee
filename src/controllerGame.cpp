@@ -12,6 +12,9 @@ ControllerGame::ControllerGame(SDL_Renderer* p_renderer)
 	currScene = new Scene();
 	newTexture = NULL;
 
+	currScene->CreateRectangle(300, 40, 400, 40);
+	currScene->CreateRectangle(500, 600, 40, 400);
+
 	newPlayer.LoadPlayerSprite(renderer, "../images/playerSprites.png");
 }
 void ControllerGame::SetInput(SDL_Event &event)
@@ -37,14 +40,17 @@ void ControllerGame::SetInput(SDL_Event &event)
 		};
 	}
 }
-void ControllerGame::Update(float timeStep)
+void ControllerGame::Update(double deltaTime)
 {
-	newPlayer.Update(timeStep);
+	newPlayer.Update(deltaTime);
 }
 void ControllerGame::Draw(SDL_Renderer* p_renderer)
 {
 	currScene->Draw(p_renderer);
 	newPlayer.Draw(renderer);
+	
+	// Draw the scene and the player.
+	SDL_RenderPresent(p_renderer);
 }
 void ControllerGame::DeleteAssets()
 {

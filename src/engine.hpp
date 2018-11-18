@@ -18,7 +18,7 @@ public:
     
 	void Run();
     void Input(SDL_Event &event, double dt);
-	void Update(float timeStep);
+	void Update(double deltaTime);
 	void Draw();
 	
 	void ToggleMenu();
