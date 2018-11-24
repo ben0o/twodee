@@ -74,18 +74,23 @@ void Player::SetDirection(Direction dir, bool enabled)
 
 void Player::Update(double deltaTime)
 {
-	xPlayerPos = currentPos.x + (xPosVel * (deltaTime / 1000));
-	yPlayerPos = currentPos.y + (yPosVel * (deltaTime / 1000));
+	//xPlayerPos = currentPos.x + (xPosVel * (deltaTime / 1000));
+	//yPlayerPos = currentPos.y + (yPosVel * (deltaTime / 1000));
 
-	//std::cout << "xPosVel: " << xPosVel << std::endl;
-	currentPos.x += xPosVel;
-	currentPos.y += yPosVel;
+	// Set new float position
+	xPlayerPos += xPosVel * deltaTime;
+	yPlayerPos += yPosVel * deltaTime;
+
+	// Test collision with edges of screen
+	if ((xPlayerPos < 0) || (xPlayerPos + currentPos.w > SCREEN_WIDTH))
+		xPlayerPos -= xPosVel;
 	
-	if ((currentPos.x < 0) || (currentPos.x + currentPos.w > SCREEN_WIDTH))
-		currentPos.x -= xPosVel;
-	
-	if ((currentPos.y < 0) || (currentPos.y + currentPos.h > SCREEN_HEIGHT))
-		currentPos.y -= yPosVel;
+	if ((yPlayerPos < 0) || (yPlayerPos + currentPos.h > SCREEN_HEIGHT))
+		yPlayerPos -= yPosVel;
+
+	// Cast current position to an integer and update the sprite position
+	currentPos.x = (int)xPlayerPos;
+	currentPos.y = (int)yPlayerPos;
 }
 
 void Player::Draw(SDL_Renderer* p_renderer)

@@ -33,45 +33,45 @@ void Engine::Run()
 	// ---- Delta Time Code 1 ----
 	// If this code is used, the player sprite moves at a steady rate across the screen.
 	// Set current clock time
-	float startTime = SDL_GetTicks();
-	float currentTime = 0;
-
-	double deltaTime = 0;
-
-	while (bRunning)
-	{
-		currentTime = startTime;
-		startTime = SDL_GetTicks();
-
-		deltaTime = ((startTime - currentTime) * 1000 / (double)SDL_GetTicks());
-		Input(event, 0); // Process input events
-		Update(deltaTime);
-		Draw();
-	}
+	//float startTime = SDL_GetTicks();
+	//float currentTime = 0;
+	//
+	//double deltaTime = 0;
+	//
+	//while (bRunning)
+	//{
+	//	currentTime = startTime;
+	//	startTime = SDL_GetTicks();
+	//
+	//	deltaTime = ((startTime - currentTime) * 1000 / (double)SDL_GetTicks());
+	//	Input(event, 0); // Process input events
+	//	Update(deltaTime);
+	//	Draw();
+	//}
 	// --------------------------
 
 
 	// ---- Delta Time Code 2 ----
 	// If this code is used, the player sprite instantly moves to the opposite edge of the screen.
-	//double timeDelta = 1.0 / 30.0;
-	//double timeAccumulator = 0;
-	//double timeStart = SDL_GetTicks();
-	//double timeSimulatedThisIteration;
-	//while (bRunning)
-	//{
-	//	timeStart = SDL_GetTicks();
-	//	timeSimulatedThisIteration = 0;
-	//
-	//	Input(event, 0);
-	//	while (timeAccumulator >= timeDelta)
-	//	{
-	//		Update(timeDelta);
-	//		timeAccumulator -= timeDelta;
-	//		timeSimulatedThisIteration += timeDelta;
-	//	}
-	//	Draw();
-	//	timeAccumulator += SDL_GetTicks() - timeStart;
-	//}
+	double timeDelta = 1.0 / 30.0;
+	double timeAccumulator = 0;
+	double timeStart = SDL_GetTicks();
+	double timeSimulatedThisIteration;
+	while (bRunning)
+	{
+		timeStart = SDL_GetTicks();
+		timeSimulatedThisIteration = 0;
+	
+		Input(event, 0);
+		while (timeAccumulator >= timeDelta)
+		{
+			Update(timeDelta);
+			timeAccumulator -= timeDelta;
+			timeSimulatedThisIteration += timeDelta;
+		}
+		Draw();
+		timeAccumulator += SDL_GetTicks() - timeStart;
+	}
 	// -------------------------
 
 	SDL_DestroyRenderer( p_renderer );

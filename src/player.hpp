@@ -16,7 +16,7 @@ public:
 	static const int PLAYER_HEIGHT = 48;
 
 	// Maximum player velocity (walking speed)
-	const float PLAYER_VEL = 1.0;
+	const float PLAYER_VEL = 0.2;
 
 	// Player direction flags
 	enum Direction { FORWARD, BACKWARD, LEFT, RIGHT };
