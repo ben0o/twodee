@@ -18,8 +18,13 @@ Player::Player()
 	currentPos.w = spriteImgCoords.w;
 	currentPos.h = spriteImgCoords.h;
 
-	yPos = currentPos.y;
-	std::cout << "Y: " << yPos << std::endl;
+	xPosVel = 0.0f;
+	yPosVel = 0.0f;
+
+	xPlayerPos = currentPos.x;
+	yPlayerPos = currentPos.y;
+
+	counter = 0;
 }
 Player::~Player()
 {
@@ -42,51 +47,48 @@ void Player::LoadPlayerSprite(SDL_Renderer* p_renderer, std::string imagePath)
 	}
 }
 
-void Player::Step(Direction dir, bool enabled, double dt)
+void Player::SetDirection(Direction dir, bool enabled)
 {
-	switch (dir)
+	if (enabled)
 	{
-	case FORWARD:
-		moveDir[FORWARD] = enabled; break;
-	case BACKWARD:
-		moveDir[BACKWARD] = enabled; break;
-	case LEFT:
-		moveDir[LEFT] = enabled; break;
-	case RIGHT:
-		moveDir[RIGHT] = enabled; break;
-	default:
-			break;
-	};
+		switch (dir)
+		{
+			case FORWARD:	yPosVel -= PLAYER_VEL; break;
+			case BACKWARD:	yPosVel += PLAYER_VEL; break;
+			case LEFT:		xPosVel -= PLAYER_VEL; break;
+			case RIGHT:		xPosVel += PLAYER_VEL; break;
+		};
+	}
+	else
+	{
+		switch (dir)
+		{
+			case FORWARD:	yPosVel += PLAYER_VEL; break;
+			case BACKWARD:	yPosVel -= PLAYER_VEL; break;
+			case LEFT:		xPosVel += PLAYER_VEL; break;
+			case RIGHT:		xPosVel -= PLAYER_VEL; break;
+		};
+	}
 
-	if ((moveDir[FORWARD] && moveDir[BACKWARD]) || (moveDir[LEFT] && moveDir[RIGHT]))
-		return;
-	if (moveDir[FORWARD])
-		currentPos.y -= 1;
-	if (moveDir[BACKWARD])
-		currentPos.y += 1;
-	if (moveDir[LEFT])
-		currentPos.x -= 1;
-	if (moveDir[RIGHT])
-		currentPos.x += 1;
 }
 
-//void Player::Step(double dt)
-//{
-//	//if ((moveDir[FORWARD] && moveDir[BACKWARD]) || (moveDir[LEFT] && moveDir[RIGHT]))
-//		//return;
-//	if (moveDir[FORWARD] == true)
-//		currentPos.y++;//= currentPos.y + (dt * WALKING_SPEED);
-//	if (moveDir[BACKWARD] == true)
-//		currentPos.y = currentPos.y - (dt * WALKING_SPEED);
-//	if (moveDir[LEFT] == true)
-//		currentPos.x = currentPos.x - (dt * WALKING_SPEED);
-//	if (moveDir[RIGHT] == true)
-//		currentPos.x = currentPos.x + (dt * WALKING_SPEED);
-//}
+void Player::Update(double deltaTime)
+{
+	xPlayerPos = currentPos.x + (xPosVel * (deltaTime / 1000));
+	yPlayerPos = currentPos.y + (yPosVel * (deltaTime / 1000));
+
+	//std::cout << "xPosVel: " << xPosVel << std::endl;
+	currentPos.x += xPosVel;
+	currentPos.y += yPosVel;
+	
+	if ((currentPos.x < 0) || (currentPos.x + currentPos.w > SCREEN_WIDTH))
+		currentPos.x -= xPosVel;
+	
+	if ((currentPos.y < 0) || (currentPos.y + currentPos.h > SCREEN_HEIGHT))
+		currentPos.y -= yPosVel;
+}
 
 void Player::Draw(SDL_Renderer* p_renderer)
 {
-	SDL_RenderClear(p_renderer);
 	SDL_RenderCopy(p_renderer, playerSprite, &spriteImgCoords, &currentPos);
-	SDL_RenderPresent(p_renderer);
 }

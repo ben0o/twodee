@@ -4,6 +4,7 @@
 #include "controller.hpp"
 #include "controllerMenu.hpp"
 #include "controllerGame.hpp"
+#include "structs.hpp"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <iostream>
@@ -17,7 +18,7 @@ public:
     
 	void Run();
     void Input(SDL_Event &event, double dt);
-	void Update(double);
+	void Update(double deltaTime);
 	void Draw();
 	
 	void ToggleMenu();
@@ -34,6 +35,7 @@ private:
     
     bool bShowMenu;
     bool bRunning;
+
 };
 
 #endif

@@ -13,8 +13,8 @@ public:
 	void SetForegroundStatus();					//used to switch between controllers
 	bool GetForegroundStatus();
 	
-	virtual void SetInput(double dt);
-    virtual void Update(double dt);
+	virtual void SetInput(SDL_Event &events);
+    virtual void Update(double deltaTime);
     virtual void Draw(SDL_Renderer*);
     
     virtual void LoadScene(std::string);
