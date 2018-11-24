@@ -30,6 +30,8 @@ void Engine::Run()
 	// Initialise image loading.
 	IMG_Init(IMG_INIT_PNG);
 
+	// ---- Delta Time Code 1 ----
+	// If this code is used, the player sprite moves at a steady rate across the screen.
 	// Set current clock time
 	float startTime = SDL_GetTicks();
 	float currentTime = 0;
@@ -45,14 +47,33 @@ void Engine::Run()
 		Input(event, 0); // Process input events
 		Update(deltaTime);
 		Draw();
-
-		//float timeStep = (SDL_GetTicks() - startTime) / 1000.f; // Calculate next step time
-		//Update(deltaTime);
-		//startTime = SDL_GetTicks(); // Reset time
-
-		//Draw();
-		//SDL_RenderPresent(p_renderer);
 	}
+	// --------------------------
+
+
+	// ---- Delta Time Code 2 ----
+	// If this code is used, the player sprite instantly moves to the opposite edge of the screen.
+	//double timeDelta = 1.0 / 30.0;
+	//double timeAccumulator = 0;
+	//double timeStart = SDL_GetTicks();
+	//double timeSimulatedThisIteration;
+	//while (bRunning)
+	//{
+	//	timeStart = SDL_GetTicks();
+	//	timeSimulatedThisIteration = 0;
+	//
+	//	Input(event, 0);
+	//	while (timeAccumulator >= timeDelta)
+	//	{
+	//		Update(timeDelta);
+	//		timeAccumulator -= timeDelta;
+	//		timeSimulatedThisIteration += timeDelta;
+	//	}
+	//	Draw();
+	//	timeAccumulator += SDL_GetTicks() - timeStart;
+	//}
+	// -------------------------
+
 	SDL_DestroyRenderer( p_renderer );
 	SDL_DestroyWindow( p_window );
 	p_cntrGame->DeleteAssets();

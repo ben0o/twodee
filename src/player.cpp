@@ -18,8 +18,8 @@ Player::Player()
 	currentPos.w = spriteImgCoords.w;
 	currentPos.h = spriteImgCoords.h;
 
-	xPosVel = 0;
-	yPosVel = 0;
+	xPosVel = 0.0f;
+	yPosVel = 0.0f;
 
 	xPlayerPos = currentPos.x;
 	yPlayerPos = currentPos.y;
@@ -74,32 +74,18 @@ void Player::SetDirection(Direction dir, bool enabled)
 
 void Player::Update(double deltaTime)
 {
-	//float newPosX, newPosY;
-	//float xPosOffset, yPosOffset;
+	xPlayerPos = currentPos.x + (xPosVel * (deltaTime / 1000));
+	yPlayerPos = currentPos.y + (yPosVel * (deltaTime / 1000));
 
-	//newPosX = currentPos.x;
-	//newPosY = currentPos.y;
-
-	//xPosOffset = newPosX + (xPosVel * (deltaTime / 1000));
-	//yPosOffset = newPosY + (yPosVel * (deltaTime / 1000));
-
-	float xPosOffset = xPosVel * deltaTime / 1000;
-	float yPosOffset = yPosVel * deltaTime / 1000;
-
-	xPlayerPos += xPosOffset;
-	yPlayerPos += yPosOffset;
-
-	//currentPos.x += xPosVel;
-	//currentPos.y += yPosVel;
-	//
-	//if ((currentPos.x < 0) || (currentPos.x + currentPos.w > SCREEN_WIDTH))
-	//	currentPos.x -= xPosVel;
-	//
-	//if ((currentPos.y < 0) || (currentPos.y + currentPos.h > SCREEN_HEIGHT))
-	//	currentPos.y -= yPosVel;
-	//
-	std::cout << "deltaTime: " << deltaTime << std::endl;
-	//std::cout << "xPos: " << xPlayerPos << std::endl;
+	//std::cout << "xPosVel: " << xPosVel << std::endl;
+	currentPos.x += xPosVel;
+	currentPos.y += yPosVel;
+	
+	if ((currentPos.x < 0) || (currentPos.x + currentPos.w > SCREEN_WIDTH))
+		currentPos.x -= xPosVel;
+	
+	if ((currentPos.y < 0) || (currentPos.y + currentPos.h > SCREEN_HEIGHT))
+		currentPos.y -= yPosVel;
 }
 
 void Player::Draw(SDL_Renderer* p_renderer)

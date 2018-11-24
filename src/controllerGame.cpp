@@ -19,6 +19,7 @@ ControllerGame::ControllerGame(SDL_Renderer* p_renderer)
 }
 void ControllerGame::SetInput(SDL_Event &event)
 {
+	//std::cout << "SetInput function called." << std::endl;
 	if (event.type == SDL_KEYDOWN)
 	{
 		switch (event.key.keysym.sym)
