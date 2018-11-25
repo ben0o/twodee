@@ -12,13 +12,9 @@ Scene::~Scene()
 
 void Scene::CreateRectangle(int x, int y, int h, int w)
 {
-	SDL_Rect newRect;
-	newRect.x = x;
-	newRect.y = y;
-	newRect.w = w;
-	newRect.h = h;
-
-	Rectangles.push_back(newRect);
+	Shape newShape;
+	newShape.CreateRectangle(x, y, h, w);
+	walls.push_back(newShape);
 }
 
 void Scene::Draw(SDL_Renderer* p_renderer)
@@ -30,8 +26,8 @@ void Scene::Draw(SDL_Renderer* p_renderer)
 	// Draw wall
 	SDL_SetRenderDrawColor(p_renderer, 0, 0, 255, 255);
 
-	for (int i = 0; i < Rectangles.size(); i++)
+	for (int i = 0; i < walls.size(); i++)
 	{
-		SDL_RenderFillRect(p_renderer, &Rectangles[i]);
+		walls[i].Draw(p_renderer);
 	}
 }

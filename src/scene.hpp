@@ -2,6 +2,7 @@
 #define SCENE_H
 
 #include "structs.hpp"
+#include "Shape.hpp"
 #include <SDL2/SDL.h>
 #include <vector>
 
@@ -20,8 +21,7 @@ private:
 	const int LEVEL_WIDTH = 1280;
 	const int LEVEL_HEIGHT = 960;
 
-	SDL_Rect wall;
-	std::vector<SDL_Rect> Rectangles;
+	std::vector<Shape> walls;
 };
 
 #endif
