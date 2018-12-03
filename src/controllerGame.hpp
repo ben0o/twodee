@@ -25,10 +25,11 @@ private:
 	// Pointer to Renderer passed in from engine
 	SDL_Renderer* renderer;
 
+	// Scene data
 	Scene *currScene;
 	Player newPlayer;
-	SDL_Texture* newTexture;
 
-	SDL_Rect wall;
+	// Camera
+	SDL_Rect camera;
 };
 #endif

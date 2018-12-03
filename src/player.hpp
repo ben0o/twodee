@@ -24,6 +24,12 @@ public:
 	Player();
 	~Player();
 
+	BoundingBox GetBoundingBox();
+	float GetPosX();
+	float GetPosY();
+	float GetCenterX();
+	float GetCenterY();
+
 	void LoadPlayerSprite(SDL_Renderer* p_renderer, std::string imagePath);
 	void SetDirection(Direction dir, bool enabled);
 	void Update(double deltaTime);
@@ -33,17 +39,18 @@ private:
 	SDL_Texture* playerSprite;
 	SDL_Rect spriteImgCoords, currentPos;
 
-	int yPos;
-
 	bool moveDir[4];
 
 	// Player velocity
 	float xPosVel, yPosVel;
 
-	// Player position
+	// Player position on the screen.
 	float xPlayerPos, yPlayerPos;
 
-	int counter;
+	// Player position in the world
+	float xPlayerWorldPos, yPlayerWorldPos;
+
+	BoundingBox playerBB;
 };
 
 #endif

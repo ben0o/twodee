@@ -18,6 +18,12 @@ void Shape::CreateRectangle(int x, int y, int h, int w)
 	Rectangle.h = h;
 }
 
+void Shape::UpdateRectangle(int cameraX, int cameraY)
+{
+	Rectangle.x = cameraX;
+	Rectangle.y = cameraY;
+}
+
 void Shape::Draw(SDL_Renderer* p_renderer)
 {
 	SDL_SetRenderDrawColor(p_renderer, 0, 0, 255, 255);

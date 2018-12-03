@@ -13,8 +13,8 @@ Player::Player()
 	spriteImgCoords.h = 48;
 
 	// Set default position of player sprite - center of the screen.
-	currentPos.x = 1024 / 2;
-	currentPos.y = 768 / 2;
+	currentPos.x = (SCREEN_WIDTH / 2) - (spriteImgCoords.w / 2);
+	currentPos.y = (SCREEN_HEIGHT / 2) - (spriteImgCoords.h / 2);
 	currentPos.w = spriteImgCoords.w;
 	currentPos.h = spriteImgCoords.h;
 
@@ -24,11 +24,39 @@ Player::Player()
 	xPlayerPos = currentPos.x;
 	yPlayerPos = currentPos.y;
 
-	counter = 0;
+	playerBB.left = xPlayerPos;
+	playerBB.right = xPlayerPos + currentPos.w;
+	playerBB.top = yPlayerPos;
+	playerBB.bottom = yPlayerPos + currentPos.h;
 }
 Player::~Player()
 {
 	// Destructor
+}
+
+BoundingBox Player::GetBoundingBox()
+{
+	return playerBB;
+}
+
+float Player::GetPosX()
+{
+	return xPlayerPos;
+}
+
+float Player::GetPosY()
+{
+	return yPlayerPos;
+}
+
+float Player::GetCenterX()
+{
+	return xPlayerPos - (currentPos.w / 2);
+}
+
+float Player::GetCenterY()
+{
+	return yPlayerPos + (currentPos.h / 2);
 }
 
 void Player::LoadPlayerSprite(SDL_Renderer* p_renderer, std::string imagePath)
@@ -69,14 +97,10 @@ void Player::SetDirection(Direction dir, bool enabled)
 			case RIGHT:		xPosVel -= PLAYER_VEL; break;
 		};
 	}
-
 }
 
 void Player::Update(double deltaTime)
 {
-	//xPlayerPos = currentPos.x + (xPosVel * (deltaTime / 1000));
-	//yPlayerPos = currentPos.y + (yPosVel * (deltaTime / 1000));
-
 	// Set new float position
 	xPlayerPos += xPosVel * deltaTime;
 	yPlayerPos += yPosVel * deltaTime;
@@ -91,9 +115,14 @@ void Player::Update(double deltaTime)
 	// Cast current position to an integer and update the sprite position
 	currentPos.x = (int)xPlayerPos;
 	currentPos.y = (int)yPlayerPos;
+
+	playerBB.left = xPlayerPos;
+	playerBB.right = xPlayerPos + currentPos.w;
+	playerBB.top = yPlayerPos;
+	playerBB.bottom = yPlayerPos + currentPos.h;
 }
 
 void Player::Draw(SDL_Renderer* p_renderer)
 {
 	SDL_RenderCopy(p_renderer, playerSprite, &spriteImgCoords, &currentPos);
-}
+} 
