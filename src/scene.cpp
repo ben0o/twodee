@@ -5,6 +5,12 @@ Scene::Scene()
 	// Default Constructor
 }
 
+Scene::Scene(Player *player, SDL_Rect *camera)
+{
+	playerPtr = player;
+	cameraPtr = camera;
+}
+
 Scene::~Scene()
 {
 	// Destructor
@@ -19,20 +25,17 @@ void Scene::CreateRectangle(int x, int y, int h, int w)
 
 int Scene::GetLevelWidth()
 {
-	return LEVEL_WIDTH;
+	return WORLD_WIDTH;
 }
 
 int Scene::GetLevelHeight()
 {
-	return LEVEL_HEIGHT;
+	return WORLD_HEIGHT;
 }
 
 void Scene::Update(int cameraX, int cameraY)
 {
-	for (int i = 0; i < walls.size(); i++)
-	{
-		walls[i].UpdateRectangle(cameraX, cameraY);
-	}
+
 }
 
 void Scene::Draw(SDL_Renderer* p_renderer)
@@ -46,6 +49,6 @@ void Scene::Draw(SDL_Renderer* p_renderer)
 
 	for (int i = 0; i < walls.size(); i++)
 	{
-		walls[i].Draw(p_renderer);
+		walls[i].Draw(p_renderer, cameraPtr);
 	}
 }
