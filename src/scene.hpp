@@ -4,6 +4,7 @@
 #include "structs.hpp"
 #include "Shape.hpp"
 #include "player.hpp"
+#include "collisionManager.hpp"
 #include <SDL2/SDL.h>
 #include <vector>
 #include <iostream>
@@ -12,7 +13,7 @@ class Scene
 {
 	public:
 		Scene();
-		Scene(Player *player, SDL_Rect *camera);
+		Scene(Player *player, Camera *camera, CollisionManager *cMgr);
 		~Scene();
 
 		void CreateRectangle(int x, int y, int h, int w);
@@ -20,20 +21,24 @@ class Scene
 		int GetLevelWidth();
 		int GetLevelHeight();
 
+		std::vector<Shape> GetWalls();
+
 		void Update(int cameraX, int cameraY);
 		void Draw(SDL_Renderer* p_renderer);
 
 private:
-	// World (level) dimensions
-	//const int WORLD_WIDTH = 1500;
-	//const int WORLD_HEIGHT = 768;
-
 	// Vector of shapes, created using SDL functions.
 	std::vector<Shape> walls;
 
+	// Level Size
+	int WORLD_WIDTH;
+	int WORLD_HEIGHT;
+
 	// Player and camera pointers
 	Player *playerPtr;
-	SDL_Rect *cameraPtr;
+	Camera *cameraPtr;
+
+	CollisionManager* collisionMgr;
 };
 
 #endif

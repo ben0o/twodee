@@ -4,8 +4,8 @@
 const int SCREEN_WIDTH = 1024;
 const int SCREEN_HEIGHT = 768;
 
-const int WORLD_WIDTH = 1600;
-const int WORLD_HEIGHT = 900;
+//const int WORLD_WIDTH = 1600;
+//const int WORLD_HEIGHT = 900;
 
 struct BoundingBox {
 	float top;

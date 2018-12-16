@@ -4,6 +4,8 @@
 #include "controller.hpp"
 #include "scene.hpp"
 #include "player.hpp"
+#include "collisionManager.hpp"
+#include "camera.hpp"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <string>
@@ -17,6 +19,7 @@ public:
 	ControllerGame(SDL_Renderer* p_renderer);
 
 	virtual void SetInput(SDL_Event &events);
+
 	virtual void Update(double timeStep);
 	virtual void Draw(SDL_Renderer*);
 
@@ -29,7 +32,9 @@ private:
 	Scene *currScene;
 	Player newPlayer;
 
+	CollisionManager collisionMgr;
+
 	// Camera
-	SDL_Rect camera;
+	Camera camera;
 };
 #endif

@@ -2,6 +2,8 @@
 #define PLAYER_H
 
 #include "structs.hpp"
+#include "collisionManager.hpp"
+#include "camera.hpp"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <string>
@@ -30,22 +32,29 @@ public:
 	float GetCenterY();
 	float GetXVelocity();
 	float GetYVelocity();
+	SDL_Rect GetPlayerBounds();
 
 	void LoadPlayerSprite(SDL_Renderer* p_renderer, std::string imagePath);
 	void SetDirection(Direction dir, bool enabled);
-	void Update(double deltaTime, SDL_Rect* camera);
-	void Draw(SDL_Renderer* p_renderer, SDL_Rect* camera);
+	void setCollisionManager(CollisionManager* collisionMgr);
+
+	void CalculateNewPosition(double deltaTime);
+	void Update(Camera* camera);
+	void Draw(SDL_Renderer* p_renderer, Camera* camera);
 
 private:
 	SDL_Texture* playerSprite;
-	SDL_Rect spriteImgCoords, currentPos;
+	SDL_Rect spriteImgCoords, currentPos;// , newPos;
+	SDL_Rect newCamera; // Buffer camera
 
 	bool moveDir[4];
+
+	CollisionManager* collisionMgr;
 
 	// Player velocity
 	float xPosVel, yPosVel;
 
-	// Player position.
+	// Player position - calculated before collision detection.
 	float xPlayerPos, yPlayerPos;
 };
 

@@ -10,24 +10,22 @@ ControllerGame::ControllerGame(SDL_Renderer* p_renderer)
 {
 	renderer = p_renderer;
 	
-	currScene = new Scene(&newPlayer, &camera);
+	currScene = new Scene(&newPlayer, &camera, &collisionMgr);
 
-	//int cameraX = (int)((600 + 30/2) - (SCREEN_WIDTH / 2));
 	int cameraX = (int)(newPlayer.GetCenterX() - (SCREEN_WIDTH / 2));
 	int cameraY = (int)(newPlayer.GetCenterY() - (SCREEN_HEIGHT / 2));
 
-	//if (cameraX < 0) cameraX = 0;
-	//if (cameraY < 0) cameraY = 0;
-	camera = { cameraX, cameraY, SCREEN_WIDTH, SCREEN_HEIGHT };
+	camera.CameraInit(cameraX, cameraY, SCREEN_WIDTH, SCREEN_HEIGHT);
 
 	currScene->CreateRectangle(300, 40, 400, 40);
 	currScene->CreateRectangle(500, 600, 40, 400);
+	currScene->CreateRectangle(1000, 200, 200, 40);
 
 	// --- Level Border ---
-	currScene->CreateRectangle(0, 0, WORLD_HEIGHT, 10); // Left wall
-	currScene->CreateRectangle(WORLD_WIDTH-10, 0, WORLD_HEIGHT, 10); // Right wall
-	currScene->CreateRectangle(10, 0, 10, WORLD_WIDTH-10); // Top wall
-	currScene->CreateRectangle(10, WORLD_HEIGHT-10, 10, WORLD_WIDTH-10); // Bottom wall
+	//currScene->CreateRectangle(0, 0, currScene->GetLevelHeight(), 10); // Left wall
+	//currScene->CreateRectangle(currScene->GetLevelWidth()-10, 0, currScene->GetLevelHeight(), 10); // Right wall
+	//currScene->CreateRectangle(10, 0, 10, currScene->GetLevelWidth()-10); // Top wall
+	//currScene->CreateRectangle(10, currScene->GetLevelHeight()-10, 10, currScene->GetLevelWidth()-10); // Bottom wall
 	// --------------------
 
 	newPlayer.LoadPlayerSprite(renderer, "../images/playerSprites.png");
@@ -53,14 +51,20 @@ void ControllerGame::SetInput(SDL_Event &event)
 			case SDLK_a: newPlayer.SetDirection(Player::LEFT, false); break;
 			case SDLK_d: newPlayer.SetDirection(Player::RIGHT, false); break;
 		};
-		std::cout << "camera X: " << camera.x << std::endl;
-		std::cout << "Player Center X: " << newPlayer.GetCenterX() << std::endl;
-		std::cout << "WORLD_WIDTH - camera.w: " << WORLD_WIDTH - camera.w << std::endl;
 	}
 }
+
 void ControllerGame::Update(double deltaTime)
 {
-	newPlayer.Update(deltaTime, &camera);
+	// -----
+	// 1. Calculate new player position (Player class).
+	// 2. Check for collision (collision detection done in CollisionManager, called from Player class).
+	// 3. If collision is detected, reset player position.
+	// 4. If no collision is detected, apply new player and camera positions.
+	// -----
+
+	newPlayer.CalculateNewPosition(deltaTime);
+	newPlayer.Update(&camera);
 }
 void ControllerGame::Draw(SDL_Renderer* p_renderer)
 {

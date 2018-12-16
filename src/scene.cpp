@@ -5,10 +5,19 @@ Scene::Scene()
 	// Default Constructor
 }
 
-Scene::Scene(Player *player, SDL_Rect *camera)
+Scene::Scene(Player *player, Camera *camera, CollisionManager *cMgr)
 {
+	WORLD_WIDTH = 1600;
+	WORLD_HEIGHT = 900;
+
 	playerPtr = player;
 	cameraPtr = camera;
+	camera->SetCameraBounds(WORLD_WIDTH, WORLD_HEIGHT);
+
+	collisionMgr = cMgr;
+	collisionMgr->SetCurrSceneCollisions(&walls, WORLD_WIDTH, WORLD_HEIGHT);
+
+	playerPtr->setCollisionManager(collisionMgr);
 }
 
 Scene::~Scene()
@@ -31,6 +40,11 @@ int Scene::GetLevelWidth()
 int Scene::GetLevelHeight()
 {
 	return WORLD_HEIGHT;
+}
+
+std::vector<Shape> Scene::GetWalls()
+{
+	return walls;
 }
 
 void Scene::Update(int cameraX, int cameraY)

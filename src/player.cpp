@@ -13,9 +13,10 @@ Player::Player()
 	spriteImgCoords.h = 48;
 
 	// Set default position of player sprite - center of the screen.
-	currentPos.x = (SCREEN_WIDTH / 2) - (spriteImgCoords.w / 2);
-	//currentPos.x = 600;
-	currentPos.y = (SCREEN_HEIGHT / 2) - (spriteImgCoords.h / 2);
+	//currentPos.x = (SCREEN_WIDTH / 2) - (spriteImgCoords.w / 2);
+	//currentPos.y = (SCREEN_HEIGHT / 2) - (spriteImgCoords.h / 2);
+	currentPos.x = 800;
+	currentPos.y = 700;
 	currentPos.w = spriteImgCoords.w;
 	currentPos.h = spriteImgCoords.h;
 
@@ -24,6 +25,7 @@ Player::Player()
 
 	xPlayerPos = currentPos.x;
 	yPlayerPos = currentPos.y;
+
 }
 Player::~Player()
 {
@@ -58,6 +60,11 @@ float Player::GetXVelocity()
 float Player::GetYVelocity()
 {
 	return yPosVel;
+}
+
+SDL_Rect Player::GetPlayerBounds()
+{
+	return currentPos;
 }
 
 void Player::LoadPlayerSprite(SDL_Renderer* p_renderer, std::string imagePath)
@@ -100,41 +107,38 @@ void Player::SetDirection(Direction dir, bool enabled)
 	}
 }
 
-void Player::Update(double deltaTime, SDL_Rect* camera)
+void Player::setCollisionManager(CollisionManager* cMgr)
+{
+	collisionMgr = cMgr;
+}
+
+void Player::CalculateNewPosition(double deltaTime)
 {
 	// Set new float position
 	xPlayerPos += xPosVel * deltaTime;
 	yPlayerPos += yPosVel * deltaTime;
 
-	// Test collision with edges of screen
-	if ((xPlayerPos < 0) || (xPlayerPos + currentPos.w > WORLD_WIDTH))
-		xPlayerPos -= xPosVel;
-	
-	if ((yPlayerPos < 0) || (yPlayerPos + currentPos.h > WORLD_HEIGHT))
-		yPlayerPos -= yPosVel;
-
-	// Reposition camera
-	camera->x = (int)(GetCenterX() - (SCREEN_WIDTH / 2));
-	camera->y = (int)(GetCenterY() - (SCREEN_HEIGHT / 2));
-
-	// Test if camera goes out of bounds.
-	if (camera->x < 0) camera->x = 0;
-	if (camera->x > (WORLD_WIDTH - camera->w)) camera->x = WORLD_WIDTH - camera->w;
-	
-	if (camera->y < 0) camera->y = 0;
-	if (camera->y > (WORLD_HEIGHT - camera->h)) camera->y = WORLD_HEIGHT - camera->h;
-
-	// Cast current position to an integer and update the player position
-	currentPos.x = (int)xPlayerPos;
-	currentPos.y = (int)yPlayerPos;
+	// Tests collision. If the player is colliding with the edge of the screen, or other objects,
+	// the position will be reset.
+	collisionMgr->playerCollision(xPosVel, yPosVel, &xPlayerPos, &yPlayerPos, currentPos);
 
 }
 
-void Player::Draw(SDL_Renderer* p_renderer, SDL_Rect* camera)
+void Player::Update(Camera* camera)
+{
+	// Cast current position to an integer and update the player position.
+	currentPos.x = (int)xPlayerPos;
+	currentPos.y = (int)yPlayerPos;
+
+	// Update camera.
+	camera->SetCameraPosition((int)GetCenterX(), (int)GetCenterY());
+}
+
+void Player::Draw(SDL_Renderer* p_renderer, Camera* camera)
 {
 	SDL_Rect newPos = currentPos;
-	newPos.x -= camera->x;
-	newPos.y -= camera->y;
+	newPos.x -= camera->GetCameraPosition().x;
+	newPos.y -= camera->GetCameraPosition().y;
 
 	SDL_RenderCopy(p_renderer, playerSprite, &spriteImgCoords, &newPos);
 } 
