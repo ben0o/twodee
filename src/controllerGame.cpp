@@ -22,10 +22,10 @@ ControllerGame::ControllerGame(SDL_Renderer* p_renderer)
 	currScene->CreateRectangle(1000, 200, 200, 40);
 
 	// --- Level Border ---
-	//currScene->CreateRectangle(0, 0, currScene->GetLevelHeight(), 10); // Left wall
-	//currScene->CreateRectangle(currScene->GetLevelWidth()-10, 0, currScene->GetLevelHeight(), 10); // Right wall
-	//currScene->CreateRectangle(10, 0, 10, currScene->GetLevelWidth()-10); // Top wall
-	//currScene->CreateRectangle(10, currScene->GetLevelHeight()-10, 10, currScene->GetLevelWidth()-10); // Bottom wall
+	currScene->CreateRectangle(0, 0, currScene->GetLevelHeight(), 10); // Left wall
+	currScene->CreateRectangle(currScene->GetLevelWidth()-10, 0, currScene->GetLevelHeight(), 10); // Right wall
+	currScene->CreateRectangle(10, 0, 10, currScene->GetLevelWidth()-10); // Top wall
+	currScene->CreateRectangle(10, currScene->GetLevelHeight()-10, 10, currScene->GetLevelWidth()-10); // Bottom wall
 	// --------------------
 
 	newPlayer.LoadPlayerSprite(renderer, "../images/playerSprites.png");
@@ -51,6 +51,7 @@ void ControllerGame::SetInput(SDL_Event &event)
 			case SDLK_a: newPlayer.SetDirection(Player::LEFT, false); break;
 			case SDLK_d: newPlayer.SetDirection(Player::RIGHT, false); break;
 		};
+		//std::cout << "Walls on screen: " << collisionMgr.GetCurrSceneCollisions().size() << std::endl;
 	}
 }
 
@@ -63,6 +64,7 @@ void ControllerGame::Update(double deltaTime)
 	// 4. If no collision is detected, apply new player and camera positions.
 	// -----
 
+	//collisionMgr.UpdateCollidableObjectsOnScreen();
 	newPlayer.CalculateNewPosition(deltaTime);
 	newPlayer.Update(&camera);
 }

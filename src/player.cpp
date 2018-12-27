@@ -34,22 +34,22 @@ Player::~Player()
 
 float Player::GetPosX()
 {
-	return xPlayerPos;
+	return currentPos.x;
 }
 
 float Player::GetPosY()
 {
-	return yPlayerPos;
+	return currentPos.y;
 }
 
 float Player::GetCenterX()
 {
-	return xPlayerPos + (currentPos.w / 2);
+	return currentPos.x + (currentPos.w / 2);
 }
 
 float Player::GetCenterY()
 {
-	return yPlayerPos + (currentPos.h / 2);
+	return currentPos.y + (currentPos.h / 2);
 }
 
 float Player::GetXVelocity()
