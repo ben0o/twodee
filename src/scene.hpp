@@ -5,6 +5,8 @@
 #include "Shape.hpp"
 #include "player.hpp"
 #include "collisionManager.hpp"
+#include "door.hpp"
+#include "button.hpp"
 #include <SDL2/SDL.h>
 #include <vector>
 #include <iostream>
@@ -17,11 +19,15 @@ class Scene
 		~Scene();
 
 		void CreateRectangle(int x, int y, int h, int w);
+		void CreateDoor(int x, int y, std::string name, bool open);
+		void CreateButton(int x, int y, std::string target);
 
 		int GetLevelWidth();
 		int GetLevelHeight();
 
 		std::vector<Shape> GetWalls();
+		std::vector<Door> GetDoors();
+		std::vector<Button> GetButtons();
 
 		void Update(int cameraX, int cameraY);
 		void Draw(SDL_Renderer* p_renderer);
@@ -29,6 +35,8 @@ class Scene
 private:
 	// Vector of shapes, created using SDL functions.
 	std::vector<Shape> walls;
+	std::vector<Door> doors;
+	std::vector<Button> buttons;
 
 	// Level Size
 	int WORLD_WIDTH;

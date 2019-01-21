@@ -8,14 +8,14 @@ Scene::Scene()
 Scene::Scene(Player *player, Camera *camera, CollisionManager *cMgr)
 {
 	WORLD_WIDTH = 1600;
-	WORLD_HEIGHT = 900;
+	WORLD_HEIGHT = 1500;
 
 	playerPtr = player;
 	cameraPtr = camera;
 	camera->SetCameraBounds(WORLD_WIDTH, WORLD_HEIGHT);
 
 	collisionMgr = cMgr;
-	collisionMgr->SetCurrSceneCollisions(&walls, WORLD_WIDTH, WORLD_HEIGHT);
+	collisionMgr->SetCurrSceneCollisions(&walls, &doors, &buttons, WORLD_WIDTH, WORLD_HEIGHT);
 
 	playerPtr->setCollisionManager(collisionMgr);
 }
@@ -32,6 +32,20 @@ void Scene::CreateRectangle(int x, int y, int h, int w)
 	walls.push_back(newShape);
 }
 
+void Scene::CreateDoor(int x, int y, std::string name, bool open)
+{
+	Door newDoor;
+	newDoor.CreateDoor(x, y, name, open);
+	doors.push_back(newDoor);
+}
+
+void Scene::CreateButton(int x, int y, std::string target)
+{
+	Button newButton;
+	newButton.CreateButton(x, y, target);
+	buttons.push_back(newButton);
+}
+
 int Scene::GetLevelWidth()
 {
 	return WORLD_WIDTH;
@@ -45,6 +59,16 @@ int Scene::GetLevelHeight()
 std::vector<Shape> Scene::GetWalls()
 {
 	return walls;
+}
+
+std::vector<Door> Scene::GetDoors()
+{
+	return doors;
+}
+
+std::vector<Button> Scene::GetButtons()
+{
+	return buttons;
 }
 
 void Scene::Update(int cameraX, int cameraY)
@@ -64,5 +88,15 @@ void Scene::Draw(SDL_Renderer* p_renderer)
 	for (int i = 0; i < walls.size(); i++)
 	{
 		walls[i].Draw(p_renderer, cameraPtr);
+	}
+
+	for (int i = 0; i < doors.size(); i++)
+	{
+		doors[i].Draw(p_renderer, cameraPtr);
+	}
+
+	for (int i = 0; i < buttons.size(); i++)
+	{
+		buttons[i].Draw(p_renderer, cameraPtr);
 	}
 }

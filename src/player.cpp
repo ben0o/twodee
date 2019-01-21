@@ -1,6 +1,6 @@
 #include "player.hpp"
 
-static const int WALKING_SPEED = 1;
+//static const int WALKING_SPEED = 1;
 
 Player::Player()
 {
@@ -16,7 +16,7 @@ Player::Player()
 	//currentPos.x = (SCREEN_WIDTH / 2) - (spriteImgCoords.w / 2);
 	//currentPos.y = (SCREEN_HEIGHT / 2) - (spriteImgCoords.h / 2);
 	currentPos.x = 800;
-	currentPos.y = 700;
+	currentPos.y = 1050;
 	currentPos.w = spriteImgCoords.w;
 	currentPos.h = spriteImgCoords.h;
 
@@ -121,7 +121,6 @@ void Player::CalculateNewPosition(double deltaTime)
 	// Tests collision. If the player is colliding with the edge of the screen, or other objects,
 	// the position will be reset.
 	collisionMgr->playerCollision(xPosVel, yPosVel, &xPlayerPos, &yPlayerPos, currentPos);
-
 }
 
 void Player::Update(Camera* camera)

@@ -30,29 +30,7 @@ void Engine::Run()
 	// Initialise image loading.
 	IMG_Init(IMG_INIT_PNG);
 
-	// ---- Delta Time Code 1 ----
-	// If this code is used, the player sprite moves at a steady rate across the screen.
-	// Set current clock time
-	//float startTime = SDL_GetTicks();
-	//float currentTime = 0;
-	//
-	//double deltaTime = 0;
-	//
-	//while (bRunning)
-	//{
-	//	currentTime = startTime;
-	//	startTime = SDL_GetTicks();
-	//
-	//	deltaTime = ((startTime - currentTime) * 1000 / (double)SDL_GetTicks());
-	//	Input(event, 0); // Process input events
-	//	Update(deltaTime);
-	//	Draw();
-	//}
-	// --------------------------
-
-
-	// ---- Delta Time Code 2 ----
-	// If this code is used, the player sprite instantly moves to the opposite edge of the screen.
+	// ---- Delta Time Code ----
 	double timeDelta = 1.0 / 30.0;
 	double timeAccumulator = 0;
 	double timeStart = SDL_GetTicks();

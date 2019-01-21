@@ -10,16 +10,18 @@ CollisionManager::~CollisionManager()
 
 }
 
-void CollisionManager::SetCurrSceneCollisions(std::vector<Shape>* cObjects, int WORLD_WIDTH, int WORLD_HEIGHT)
+void CollisionManager::SetCurrSceneCollisions(std::vector<Shape>* cObjects, std::vector<Door>* doors, std::vector<Button>* buttons, int WORLD_WIDTH, int WORLD_HEIGHT)
 {
 	this->cObjects = cObjects;
+	this->doors = doors;
+	this->buttons = buttons;
 	currWorldWidth = WORLD_WIDTH;
 	currWorldHeight = WORLD_HEIGHT;
 }
 
 std::vector<Shape> CollisionManager::GetCurrSceneCollisions()
 {
-	return this->objOnScreen;
+	return objOnScreen;
 }
 
 void CollisionManager::UpdateCollidableObjectsOnScreen()
@@ -48,7 +50,6 @@ void CollisionManager::playerCollision(float xVelocity, float yVelocity, float* 
 
 	SDL_Rect currentRect;
 	bool collisionX, collisionY;
-	bool verticalColl, horizontalColl;
 
 	int playerWidth, playerHeight, objWidth, objHeight;
 	playerWidth = currentPos.x + currentPos.w;
@@ -73,29 +74,55 @@ void CollisionManager::playerCollision(float xVelocity, float yVelocity, float* 
 
 			// Test if the collision is from the side
 			if (
-				(currentPos.x <= objWidth || playerWidth >= currentRect.x) 
-				&& (currentPos.y > currentRect.y && currentPos.y < objHeight) 
+				(currentPos.x <= objWidth || playerWidth >= currentRect.x)
+				&& (currentPos.y > currentRect.y && currentPos.y < objHeight)
 				|| (playerHeight >= currentRect.y && playerHeight < objHeight)
 				|| (currentPos.y <= currentRect.y && playerHeight >= objHeight)
-				)
-				verticalColl = true;
+				) // If collision is from the side, move player back to previous position in x-axis.
+				(*xNewPos) -= xVelocity;
 
 			// Test if the collision is from the top or bottom
 			if (
-				(currentPos.y <= objHeight || playerHeight >= currentRect.y) 
-				&& (currentPos.x > currentRect.x && currentPos.x < objWidth) 
+				(currentPos.y <= objHeight || playerHeight >= currentRect.y)
+				&& (currentPos.x > currentRect.x && currentPos.x < objWidth)
 				|| (playerWidth >= currentRect.x && playerWidth < objWidth)
 				|| (currentPos.x <= currentRect.x && playerWidth >= objWidth)
-				)
-				horizontalColl = true;
-
-			// If collision is from top or bottom, move player back to previous position in y-Axis.
-			if (horizontalColl)
+				) // If collision is from top or bottom, move player back to previous position in y-Axis.
 				(*yNewPos) -= yVelocity;
-	
-			// If collision is from the side, move player back to previous position in x-axis.
-			if (verticalColl)
-				(*xNewPos) -= xVelocity;
+		}
+	}
+
+
+	for (std::vector<Door>::iterator it = doors->begin(); it != doors->end(); ++it)
+	{
+		currentRect = it->GetDoorBounds();
+
+		// X-Axis collision
+		collisionX = ((*xNewPos) + currentPos.w > currentRect.x) && (currentRect.x + currentRect.w > (*xNewPos));
+
+		// Y-Axis collision
+		collisionY = ((*yNewPos) + currentPos.h > currentRect.y) && (currentRect.y + currentRect.h > (*yNewPos));
+
+		if (collisionX && collisionY && it->GetOpen() == false)
+		{
+			(*xNewPos) -= xVelocity;
+			(*yNewPos) -= yVelocity;
+		}
+	}
+
+	for (std::vector<Button>::iterator it = buttons->begin(); it != buttons->end(); ++it)
+	{
+		currentRect = it->GetButtonBounds();
+
+		// X-Axis collision
+		collisionX = ((*xNewPos) + currentPos.w > currentRect.x) && (currentRect.x + currentRect.w > (*xNewPos));
+
+		// Y-Axis collision
+		collisionY = ((*yNewPos) + currentPos.h > currentRect.y) && (currentRect.y + currentRect.h > (*yNewPos));
+
+		if (collisionX && collisionY)
+		{
+			//std::cout << "Collision with button." << std::endl;
 		}
 	}
 }
