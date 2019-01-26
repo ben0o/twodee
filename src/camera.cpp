@@ -10,10 +10,10 @@ Camera::~Camera()
 
 }
 
-void Camera::CameraInit(int cameraX, int cameraY, int width, int height)
+void Camera::CameraInit(glm::vec2 position, int width, int height)
 {
-	camera.x = cameraX;
-	camera.y = cameraY;
+	camera.x = position.x;
+	camera.y = position.y;
 	camera.w = width;
 	camera.h = height;
 }
@@ -23,10 +23,10 @@ void Camera::SetCameraBounds(int width, int height)
 	WORLD_HEIGHT = height;
 }
 
-void Camera::SetCameraPosition(int x, int y)
+void Camera::SetCameraPosition(glm::vec2 pos)
 {
-	camera.x = x - (camera.w / 2);
-	camera.y = y - (camera.h / 2);
+	camera.x = pos.x - (camera.w / 2);
+	camera.y = pos.y - (camera.h / 2);
 
 	// Test if camera goes out of bounds.
 	if (camera.x < 0) camera.x = 0;

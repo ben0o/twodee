@@ -8,7 +8,7 @@ public:
 	int GetPosX();
 	int GetPosY();
 private:
-	int x, int y;
+	int x, y;
 };
 
 #endif

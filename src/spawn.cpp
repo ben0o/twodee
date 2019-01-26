@@ -2,8 +2,8 @@
 
 void Spawn::SetPosition(int x, int y)
 {
-	this.x = x;
-	this.y = y;
+	this->x = x;
+	this->y = y;
 }
 
 int Spawn::GetPosX()

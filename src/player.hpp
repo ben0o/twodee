@@ -2,60 +2,43 @@
 #define PLAYER_H
 
 #include "structs.hpp"
-#include "collisionManager.hpp"
 #include "camera.hpp"
+#include "../include/glm/vec2.hpp"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <string>
 #include <iostream>
 
+class Scene;
 class Player
 {
 public:
-
-	//Player sprite dimensions
-	static const int PLAYER_WIDTH = 30;
-	static const int PLAYER_HEIGHT = 48;
-
-	// Maximum player velocity (walking speed)
-	const float PLAYER_VEL = 0.2;
-
-	// Player direction flags
-	enum Direction { FORWARD, BACKWARD, LEFT, RIGHT };
-
 	Player();
 	~Player();
 
-	float GetPosX();
-	float GetPosY();
-	float GetCenterX();
-	float GetCenterY();
-	float GetXVelocity();
-	float GetYVelocity();
-	SDL_Rect GetPlayerBounds();
+	glm::vec2 GetPosition();
+	glm::vec2 GetCenter();
+	glm::vec2 GetVelocity();
 
 	void LoadPlayerSprite(SDL_Renderer* p_renderer, std::string imagePath);
-	void SetDirection(Direction dir, bool enabled);
-	void setCollisionManager(CollisionManager* collisionMgr);
+	void Input(SDL_Event &event);
 
-	void CalculateNewPosition(double deltaTime);
-	void Update(Camera* camera);
+	void Update(Camera* camera, Scene* currScene, double deltaTime);
 	void Draw(SDL_Renderer* p_renderer, Camera* camera);
 
 private:
 	SDL_Texture* playerSprite;
-	SDL_Rect spriteImgCoords, currentPos;// , newPos;
+	SDL_Rect forwardSprite, leftSprite, rightSprite, backSprite;
 	SDL_Rect newCamera; // Buffer camera
 
-	bool moveDir[4];
+	// Maximum player velocity (walking speed)
+	const float PLAYER_VEL = 0.2;
 
-	CollisionManager* collisionMgr;
+	glm::vec2 playerSize;
 
-	// Player velocity
-	float xPosVel, yPosVel;
-
-	// Player position - calculated before collision detection.
-	float xPlayerPos, yPlayerPos;
+	glm::vec2 velocity;
+	glm::vec2 currentPos;
+	glm::vec2 newPosition;
 };
 
 #endif

@@ -3,6 +3,7 @@
 
 #include <SDL2/SDL.h>
 #include <iostream>
+#include "../include/glm/vec2.hpp"
 #include "structs.hpp"
 
 class Camera
@@ -10,9 +11,9 @@ class Camera
 public:
 	Camera();
 	~Camera();
-	void CameraInit(int cameraX, int cameraY, int width, int height);
+	void CameraInit(glm::vec2 position, int width, int height);
 	void SetCameraBounds(int width, int height);
-	void SetCameraPosition(int x, int y);
+	void SetCameraPosition(glm::vec2 pos);
 
 	SDL_Rect GetCameraPosition();
 

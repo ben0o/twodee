@@ -4,7 +4,6 @@
 #include "structs.hpp"
 #include "Shape.hpp"
 #include "player.hpp"
-#include "collisionManager.hpp"
 #include "door.hpp"
 #include "button.hpp"
 #include <SDL2/SDL.h>
@@ -15,7 +14,7 @@ class Scene
 {
 	public:
 		Scene();
-		Scene(Player *player, Camera *camera, CollisionManager *cMgr);
+		Scene(Player *player);
 		~Scene();
 
 		void CreateRectangle(int x, int y, int h, int w);
@@ -29,7 +28,8 @@ class Scene
 		std::vector<Door> GetDoors();
 		std::vector<Button> GetButtons();
 
-		void Update(int cameraX, int cameraY);
+		void Input(SDL_Event &event);
+		void Update(double deltaTime);
 		void Draw(SDL_Renderer* p_renderer);
 
 private:
@@ -44,9 +44,7 @@ private:
 
 	// Player and camera pointers
 	Player *playerPtr;
-	Camera *cameraPtr;
-
-	CollisionManager* collisionMgr;
+	Camera Camera;
 };
 
 #endif
