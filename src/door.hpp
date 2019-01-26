@@ -11,6 +11,7 @@ public:
 	~Door();
 
 	void CreateDoor(int x, int y, std::string name, bool open);
+	void ToggleDoor(bool isOpen);
 	SDL_Rect GetDoorBounds();
 	bool GetOpen();
 	std::string GetName();

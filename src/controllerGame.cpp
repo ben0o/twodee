@@ -31,7 +31,7 @@ ControllerGame::ControllerGame(SDL_Renderer* p_renderer)
 	currScene->CreateRectangle(10, 890, 10, currScene->GetLevelWidth() / 2);
 	currScene->CreateRectangle((currScene->GetLevelWidth() / 2) + 100, 890, 10, (currScene->GetLevelWidth() / 2)-100);
 
-	currScene->CreateDoor(currScene->GetLevelWidth() / 2, 890, "New Door", false);
+	currScene->CreateDoor(currScene->GetLevelWidth() / 2, 890, "New Door", true);
 
 	currScene->CreateButton((currScene->GetLevelWidth() / 2) - 100, 890, "New Door");
 	
@@ -47,6 +47,8 @@ void ControllerGame::SetInput(SDL_Event &event)
 			case SDLK_s: newPlayer.SetDirection(Player::BACKWARD, true); break;
 			case SDLK_a: newPlayer.SetDirection(Player::LEFT, true); break;
 			case SDLK_d: newPlayer.SetDirection(Player::RIGHT, true); break;
+
+			//case SDLK_e: Call Action function.
 		};
 	}
 	if (event.type == SDL_KEYUP)
@@ -58,7 +60,6 @@ void ControllerGame::SetInput(SDL_Event &event)
 			case SDLK_a: newPlayer.SetDirection(Player::LEFT, false); break;
 			case SDLK_d: newPlayer.SetDirection(Player::RIGHT, false); break;
 		};
-		//std::cout << "Walls on screen: " << collisionMgr.GetCurrSceneCollisions().size() << std::endl;
 	}
 }
 

@@ -17,10 +17,10 @@ void Button::CreateButton(int x, int y, std::string doorTarget)
 	bBorder.h = 10;
 	bBorder.w = 10;
 
-	bSwitch.x = bBorder.x + (bBorder.w / 8);
-	bSwitch.y = bBorder.y + (bBorder.h / 8);
-	bSwitch.h = bBorder.h - ((bBorder.h / 8)*2);
-	bSwitch.w = bBorder.w - ((bBorder.w / 8)*2);
+	bSwitch.x = bBorder.x + (bBorder.w / 4);
+	bSwitch.y = bBorder.y + (bBorder.h / 4);
+	bSwitch.h = bBorder.h - ((bBorder.h / 4)*2);
+	bSwitch.w = bBorder.w - ((bBorder.w / 4)*2);
 	doorTargetName = doorTarget;
 
 	bBounds.x = bBorder.x - (bBorder.w / 2);

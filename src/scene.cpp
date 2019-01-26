@@ -5,10 +5,10 @@ Scene::Scene()
 	// Default Constructor
 }
 
-Scene::Scene(Player *player, Camera *camera, CollisionManager *cMgr)
+Scene::Scene(Player *player, Camera *camera, CollisionManager *cMgr) : WORLD_WIDTH(1600), WORLD_HEIGHT(1500)
 {
-	WORLD_WIDTH = 1600;
-	WORLD_HEIGHT = 1500;
+	//WORLD_WIDTH = 1600;
+	//WORLD_HEIGHT = 1500;
 
 	playerPtr = player;
 	cameraPtr = camera;

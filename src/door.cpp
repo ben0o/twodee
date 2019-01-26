@@ -20,6 +20,11 @@ void Door::CreateDoor(int x, int y, std::string name, bool open)
 	doorName = name;
 }
 
+void Door::ToggleDoor(bool isOpen)
+{
+	this->open = isOpen;
+}
+
 SDL_Rect Door::GetDoorBounds()
 {
 	return Rectangle;
