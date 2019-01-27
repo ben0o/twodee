@@ -3,7 +3,7 @@
 
 #include "controller.hpp"
 #include "scene.hpp"
-#include "player.hpp"
+#include "Entities/player.hpp"
 #include "camera.hpp"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -15,7 +15,7 @@ class ControllerGame : public Controller
 public:
 	ControllerGame();
 	~ControllerGame();
-	ControllerGame(SDL_Renderer* p_renderer);
+	ControllerGame(SDL_Renderer* p_renderer, int ScreenWidth, int ScreenHeight);
 
 	virtual void SetInput(SDL_Event &events);
 	virtual void Update(double timeStep);
@@ -27,6 +27,7 @@ private:
 
 	// Scene data
 	Scene *currScene;
-	Player newPlayer;
+	Player *newPlayer;
+	Player *AIPlayer;
 };
 #endif

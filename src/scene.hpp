@@ -1,9 +1,8 @@
 #ifndef SCENE_H
 #define SCENE_H
 
-#include "structs.hpp"
 #include "Shape.hpp"
-#include "player.hpp"
+#include "Entities/player.hpp"
 #include "door.hpp"
 #include "button.hpp"
 #include <SDL2/SDL.h>
@@ -14,12 +13,14 @@ class Scene
 {
 	public:
 		Scene();
-		Scene(Player *player);
+		Scene(Player *player, int levelWidth, int levelHeight, int screenWidth, int screenHeight);
 		~Scene();
 
 		void CreateRectangle(int x, int y, int h, int w);
 		void CreateDoor(int x, int y, std::string name, bool open);
 		void CreateButton(int x, int y, std::string target);
+
+		void SetAI(Player *AI);
 
 		int GetLevelWidth();
 		int GetLevelHeight();
@@ -27,6 +28,10 @@ class Scene
 		std::vector<Shape> GetWalls();
 		std::vector<Door> GetDoors();
 		std::vector<Button> GetButtons();
+
+		Camera GetCamera();
+
+		void ResolveCollisions(SDL_Rect bounds, glm::vec2& newPos, glm::vec2 velocity);
 
 		void Input(SDL_Event &event);
 		void Update(double deltaTime);
@@ -39,12 +44,18 @@ private:
 	std::vector<Button> buttons;
 
 	// Level Size
-	int WORLD_WIDTH;
-	int WORLD_HEIGHT;
+	int LEVEL_WIDTH;
+	int LEVEL_HEIGHT;
+
+	// Screen Size
+	int SCREEN_WIDTH;
+	int SCREEN_HEIGHT;
 
 	// Player and camera pointers
 	Player *playerPtr;
-	Camera Camera;
+	Camera *camera;
+
+	Player *AIPlayerPtr;
 };
 
 #endif

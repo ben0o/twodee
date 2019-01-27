@@ -1,4 +1,8 @@
 #include "controllerGame.hpp"
+#include "Entities/PlayerInputComponent.hpp"
+#include "Entities/PlayerGraphicsComponent.hpp"
+#include "Entities/PlayerPhysicsComponent.hpp"
+#include "Entities/AIInputComponent.hpp"
 
 ControllerGame::ControllerGame()
 {
@@ -6,14 +10,13 @@ ControllerGame::ControllerGame()
 ControllerGame::~ControllerGame()
 {
 }
-ControllerGame::ControllerGame(SDL_Renderer* p_renderer)
+ControllerGame::ControllerGame(SDL_Renderer* p_renderer, int screenWidth, int screenHeight)
 {
 	renderer = p_renderer;
-	
-	currScene = new Scene(&newPlayer);
+	glm::vec2 position = glm::vec2(800, 1050);
 
-	//glm::vec2 cameraPos = glm::vec2(newPlayer.GetCenter().x - (SCREEN_WIDTH / 2), (newPlayer.GetCenter().y - (SCREEN_HEIGHT / 2)));
-	//camera.CameraInit(cameraPos, SCREEN_WIDTH, SCREEN_HEIGHT);
+	newPlayer = new Player(new PlayerInputComponent(), new PlayerGraphicsComponent(), new PlayerPhysicsComponent(), position);
+	currScene = new Scene(newPlayer, 1600, 1500, screenWidth, screenHeight);
 	
 	currScene->CreateRectangle(300, 40, 400, 40);
 	currScene->CreateRectangle(500, 600, 40, 400);
@@ -33,7 +36,13 @@ ControllerGame::ControllerGame(SDL_Renderer* p_renderer)
 
 	currScene->CreateButton((currScene->GetLevelWidth() / 2) - 100, 890, "New Door");
 	
-	newPlayer.LoadPlayerSprite(renderer, "../images/playerSprites.png");
+	newPlayer->LoadSprite(renderer, "../images/playerSprites.png");
+
+	// Add AI character
+	position = glm::vec2(700, 1050);
+	AIPlayer = new Player(new AIInputComponent(), new PlayerGraphicsComponent(), new PlayerPhysicsComponent(), position);
+	AIPlayer->LoadSprite(renderer, "../images/AISprite.png");
+	currScene->SetAI(AIPlayer);
 }
 void ControllerGame::SetInput(SDL_Event &event)
 {

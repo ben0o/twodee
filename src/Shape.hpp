@@ -1,7 +1,6 @@
 #ifndef SHAPE_H
 #define SHAPE_H
 
-#include "structs.hpp"
 #include "camera.hpp"
 #include <SDL2/SDL.h>
 

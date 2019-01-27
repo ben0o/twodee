@@ -4,6 +4,8 @@ Engine::Engine()
 {
     // Default Constructor
     bRunning = true;
+	SCREEN_WIDTH = 1024;
+	SCREEN_HEIGHT = 768;
 }
 Engine::~Engine()
 {
@@ -19,7 +21,7 @@ void Engine::Run()
 	SDL_Event event;
 
 	p_cntrMenu = new ControllerMenu();
-	p_cntrGame = new ControllerGame(p_renderer);
+	p_cntrGame = new ControllerGame(p_renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
 
 	//Set the menu as the current controller object
 	p_cntrCurrent = p_cntrMenu;

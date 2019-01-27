@@ -4,7 +4,6 @@
 #include "controller.hpp"
 #include "controllerMenu.hpp"
 #include "controllerGame.hpp"
-#include "structs.hpp"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <iostream>
@@ -32,6 +31,8 @@ private:
     // SDL Render Window
     SDL_Window* p_window;
     SDL_Renderer* p_renderer;
+
+	int SCREEN_WIDTH, SCREEN_HEIGHT;
     
     bool bShowMenu;
     bool bRunning;
